@@ -175,6 +175,7 @@ body {
 
 /* ---------- Visor ---------- */
 .lb { position: fixed; inset: 0; z-index: 200; background: rgba(8, 18, 28, .93); display: grid; place-items: center; opacity: 0; transition: opacity .25s; }
+.lb[hidden] { display: none; }
 .lb.is-on { opacity: 1; }
 .lb img { max-width: 92vw; max-height: 84vh; object-fit: contain; }
 .lb__c { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: .9rem; }
@@ -187,7 +188,7 @@ body {
    ========================================================= */
 body[data-b="breeze"] {
   --t-bg: #fbfaf6; --t-ink: #16365c; --t-ink2: #45607f; --t-title: #1b5fa6; --t-acc: #1b5fa6; --t-soft: #e8f0f8; --t-line: #d3e2f1;
-  --t-head: 'Marcellus', serif; --t-r: 2px;
+  --t-head: 'Marcellus', 'Forum', serif; --t-r: 2px;
   --f-wall: #ffffff; --f-line: #16365c; --f-shut: #1b5fa6; --f-pane: #d8e7f5; --f-pane-off: #eef3f8; --f-glow: rgba(27, 95, 166, .13);
 }
 [data-b="breeze"] .btn { border-radius: 2px; }
@@ -208,7 +209,7 @@ body[data-b="breeze"] {
    ========================================================= */
 body[data-b="pareclaret"] {
   --t-bg: #fbf3ea; --t-ink: #47291a; --t-ink2: #765440; --t-title: #b5532b; --t-acc: #c4622f; --t-soft: #f6e3cf; --t-line: #ecd3bb;
-  --t-head: 'Fraunces', serif; --t-r: 22px;
+  --t-head: 'Fraunces', 'Lora', serif; --t-r: 22px;
 }
 [data-b="pareclaret"] .btn { border-radius: 14px; }
 [data-b="pareclaret"] .bh { background: radial-gradient(circle at 85% 20%, #f8dcc0 0, transparent 45%), #fbf3ea; }
@@ -225,7 +226,7 @@ body[data-b="pareclaret"] {
    ========================================================= */
 body[data-b="fenals"] {
   --t-bg: #f1faf8; --t-ink: #0f3d36; --t-ink2: #3f6a63; --t-title: #11786b; --t-acc: #11857a; --t-soft: #d9f2ee; --t-line: #c4e5df;
-  --t-head: 'Nunito', sans-serif; --t-r: 6px 26px 6px 26px;
+  --t-head: 'Nunito', 'Onest', sans-serif; --t-r: 6px 26px 6px 26px;
 }
 [data-b="fenals"] .bh {
   background-color: #f1faf8;

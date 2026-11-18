@@ -23,8 +23,8 @@
   --shadow-lg: 0 2px 4px rgba(12, 46, 74, .05), 0 30px 60px -24px rgba(12, 46, 74, .3);
   --r-leaf: 4px 20px;           /* forma "hoja/pluma" de botones y chips */
   --r-card: 6px 26px 6px 26px;
-  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Onest', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Figtree', 'Onest', 'Segoe UI', system-ui, sans-serif;
   --wrap: 1220px;
   --header-h: 74px;
   --meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='16' viewBox='0 0 20 16'%3E%3Cpath d='M0 15H20M2 15V1H16V11H6V5H12' fill='none' stroke='%231b5fa6' stroke-width='1.6'/%3E%3C/svg%3E");
@@ -45,6 +45,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0; letter-spacing: -.02em; font-weight: 700; }
 p { margin: 0; }
 .wrap { width: min(var(--wrap), 100% - 32px); margin-inline: auto; }
+[hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .ico { width: 1.25em; height: 1.25em; flex: none; }
 :focus-visible { outline: 3px solid color-mix(in srgb, var(--blue) 55%, transparent); outline-offset: 2px; }
@@ -111,7 +112,7 @@ p { margin: 0; }
 .header.is-open .burger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .header.is-open .burger span:nth-child(2) { opacity: 0; }
 .header.is-open .burger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-@media (max-width: 1100px) {
+@media (max-width: 1240px) {
   .burger { display: block; }
   .nav {
     position: absolute; top: var(--header-h); left: 0; right: 0; flex-direction: column; gap: 0;
@@ -123,6 +124,41 @@ p { margin: 0; }
   .header .btn { display: none; }
 }
 @media (max-width: 420px) { .brand small { display: none; } }
+
+/* ---------- Selector de idioma ---------- */
+.lang { position: relative; flex: none; }
+.lang__btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px; border: 1.5px solid var(--line); background: #fff;
+  border-radius: var(--r-leaf); font-weight: 700; font-size: .85rem; letter-spacing: .04em; color: var(--ink-2); cursor: pointer; transition: border-color .2s, color .2s;
+}
+.lang__btn .ico { width: 18px; height: 18px; }
+.lang__btn:hover, .lang.is-open .lang__btn { border-color: var(--blue); color: var(--blue); }
+.lang__menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 196px; list-style: none; margin: 0; padding: 6px;
+  background: #fff; border: 1px solid var(--line); border-radius: 6px 18px 6px 18px; box-shadow: var(--shadow-lg);
+  opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity .2s, transform .2s;
+}
+.lang.is-open .lang__menu { opacity: 1; transform: none; pointer-events: auto; }
+.lang__menu button {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 12px; border: 0; background: none; border-radius: 4px 12px;
+  font-weight: 600; text-align: left; cursor: pointer; color: var(--ink);
+}
+.lang__menu b { width: 24px; font-size: .74rem; letter-spacing: .06em; color: var(--ink-3); }
+.lang__menu button:hover, .lang__menu button:focus-visible { background: var(--blue-soft); outline: none; }
+.lang__menu [aria-current] { color: var(--blue); }
+.lang__menu [aria-current] b { color: var(--blue); }
+@media (max-width: 1240px) {
+  .lang { margin-left: auto; }
+  .header .burger { margin-left: 0; flex: none; }
+}
+@media (max-width: 480px) {
+  .header .wrap { gap: 10px; }
+  .lang__btn { padding: 0 10px; height: 44px; }
+  .lang__btn .ico { display: none; }
+  .brand { gap: 9px; }
+  .brand img { width: 40px; height: 40px; }
+  .brand b { font-size: 1.18rem; }
+}
 
 /* ---------- Footer ---------- */
 .footer { background: var(--blue-ink); color: #d6e3ef; padding: 70px 0 30px; margin-top: 0; position: relative; overflow: hidden; }

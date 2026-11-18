@@ -4,6 +4,7 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const html = document.documentElement;
+  const t = PH.t, tn = PH.tn;
 
   /* =====================================================
      1 · INTRO — el ala barre la pantalla y aparece el logo
@@ -53,12 +54,12 @@
      2 · SERVICIOS
      ===================================================== */
   const PERKS = [
-    ['beach', 'Playa a pocos pasos'], ['parking', 'Parking gratuito'], ['wifi', 'Wifi gratis'],
-    ['family', 'Ideal familias'], ['plane', 'Traslado aeropuerto'], ['clock', 'Atención 24/7'],
-    ['crib', 'Cuna y silla de lactancia gratis'], ['towel', 'Ropa de cama y toallas'], ['nosmoke', 'Apartamentos sin humo'],
+    ['beach', 'perk.beach'], ['parking', 'perk.parking'], ['wifi', 'perk.wifi'],
+    ['family', 'perk.family'], ['plane', 'perk.transfer'], ['clock', 'perk.247'],
+    ['crib', 'perk.crib'], ['towel', 'perk.linen'], ['nosmoke', 'perk.nosmoke'],
   ];
-  $('#perks').innerHTML = PERKS.map(([i, t], k) =>
-    `<li class="rise" style="--d:${k * 0.04}s">${PH.icon(i)}<span>${t}</span></li>`).join('');
+  $('#perks').innerHTML = PERKS.map(([i, k], n) =>
+    `<li class="rise" style="--d:${n * 0.04}s">${PH.icon(i)}<span>${t(k)}</span></li>`).join('');
 
   /* =====================================================
      3 · EDIFICIOS (cada tarjeta con su mini diseño)
@@ -74,15 +75,15 @@
     const b = PH.BUILDINGS[id], apts = PH.aptsOf(id);
     return `
     <a class="bcard bcard--${id} rise" style="--d:${k * 0.08}s" href="${b.page}" data-wing>
-      <div class="bcard__media"><img src="${b.cover}" alt="Interior de un apartamento de ${b.name}" loading="lazy"></div>
+      <div class="bcard__media"><img src="${b.cover}" alt="${b.name} · ${b.kind}" loading="lazy"></div>
       <div class="bcard__body">
         <span class="bcard__kind">${b.kind}</span>
         <h3 class="bcard__name">${b.name}</h3>
         <p class="bcard__tag">${b.tagline}</p>
         <ul class="bcard__perks">${b.perks.map((p) => `<li>${p}</li>`).join('')}</ul>
         <div class="bcard__foot">
-          <span><b>${apts.length}</b> ${apts.length === 1 ? 'piso' : 'pisos'} · desde <b>${PH.eur(PH.minPrice(apts))}</b>/noche</span>
-          <span class="bcard__go">Ver pisos ${PH.icon('arrow')}</span>
+          <span><b>${apts.length}</b> ${tn('u.flats', apts.length)} · ${t('u.from')} <b>${PH.eur(PH.minPrice(apts))}</b>${t('u.perNight')}</span>
+          <span class="bcard__go">${t('card.see')} ${PH.icon('arrow')}</span>
         </div>
       </div>
       ${deco[id]}
@@ -93,23 +94,23 @@
      4 · ALREDEDORES
      ===================================================== */
   const ORIGINS = [
-    { id: 'pareclaret', label: 'Pare Claret', sub: 'Centro' },
-    { id: 'centro-playa', label: 'Breeze', sub: 'Playa' },
-    { id: 'fenals', label: 'Fenals', sub: 'Piscina' },
+    { id: 'pareclaret', label: 'Pare Claret', sub: t('origin.centro') },
+    { id: 'centro-playa', label: 'Breeze', sub: t('origin.playa') },
+    { id: 'fenals', label: 'Fenals', sub: t('origin.piscina') },
   ];
   const PHOTOS = {
-    all: ['05', "La playa de Lloret y el Castell d'en Plaja"],
-    playa: ['17', 'Arena y agua clara en la bahía de Lloret'],
-    monumento: ['18', "El Castell d'en Plaja sobre el mar"],
-    restaurante: ['15', 'Arroces y paellas frente al mar'],
-    bar: ['14', 'Tapas y cócteles en terraza'],
-    actividad: ['04', 'El camí de ronda entre calas'],
+    all: ['05', t('cap.all')],
+    playa: ['17', t('cap.playa')],
+    monumento: ['18', t('cap.monumento')],
+    restaurante: ['15', t('cap.restaurante')],
+    bar: ['14', t('cap.bar')],
+    actividad: ['04', t('cap.actividad')],
   };
   const around = { origin: 'centro-playa', cat: 'all' };
   const originEl = $('#origin');
   originEl.innerHTML = ORIGINS.map((o) =>
     `<button role="tab" type="button" data-o="${o.id}" aria-selected="${o.id === around.origin}"><b>${o.label}</b><small>${o.sub}</small></button>`).join('');
-  $('#cats').innerHTML = [['all', 'Todo', 'pin'], ...Object.entries(PH.CATS).map(([k, v]) => [k, v.label, v.icon])]
+  $('#cats').innerHTML = [['all', t('cat.all'), 'pin'], ...Object.entries(PH.CATS).map(([k, v]) => [k, v.label, v.icon])]
     .map(([k, l, i]) => `<button type="button" class="cat cat--${k}" data-c="${k}" aria-pressed="${k === 'all'}">${PH.icon(i)}${l}</button>`).join('');
 
   function originPoint() { return PH.LOCATIONS.find((l) => l.id === around.origin); }
@@ -118,16 +119,16 @@
     const withD = PH.PLACES.map((p) => ({ ...p, w: PH.walk(o, p) }));
     const nearestBeach = withD.filter((p) => p.c === 'playa').sort((a, b) => a.w.m - b.w.m)[0];
     const key = [
-      ['Playa más cercana', nearestBeach.n, nearestBeach.w],
-      ['Església de Sant Romà', 'Iglesia', withD.find((p) => p.n.startsWith('Església')).w],
-      ['Dona Marinera', 'Mirador', withD.find((p) => p.n === 'Dona Marinera').w],
-      ['Estación de autobuses', 'Buses', withD.find((p) => p.n.startsWith('Estació')).w],
+      [t('key.beach'), nearestBeach.n, nearestBeach.w],
+      [t('key.church'), '', withD.find((p) => p.n.startsWith('Església')).w],
+      ['Dona Marinera', '', withD.find((p) => p.n === 'Dona Marinera').w],
+      [t('key.bus'), '', withD.find((p) => p.n.startsWith('Estació')).w],
     ];
-    $('#around-key').innerHTML = key.map(([t, s, w], i) => `
+    $('#around-key').innerHTML = key.map(([title, s, w], i) => `
       <div class="kfig" style="--i:${i}">
-        <span class="kfig__min">${w.min}<small> min</small></span>
-        <span class="kfig__t">${t}</span>
-        <span class="kfig__s">${i === 0 ? s + ' · ' : ''}${PH.fmtDist(w.m)} a pie</span>
+        <span class="kfig__min">${w.min}<small> ${t('u.min')}</small></span>
+        <span class="kfig__t">${title}</span>
+        <span class="kfig__s">${s ? s + ' · ' : ''}${t('u.onFoot', { d: PH.fmtDist(w.m) })}</span>
       </div>`).join('');
 
     const list = withD.filter((p) => around.cat === 'all' || p.c === around.cat).sort((a, b) => a.w.m - b.w.m);
@@ -137,7 +138,7 @@
         <span class="place__ico">${PH.icon(PH.CATS[p.c].icon)}</span>
         <div class="place__txt"><b>${p.n}</b><span>${p.d}</span></div>
         <div class="place__dist">
-          <span class="place__min">${p.w.min} min</span>
+          <span class="place__min">${p.w.min} ${t('u.min')}</span>
           <span class="place__bar"><i style="width:${Math.max(6, (p.w.min / maxMin) * 100)}%"></i></span>
           <span class="place__m">${PH.fmtDist(p.w.m)}</span>
         </div>
@@ -174,7 +175,7 @@
   const st = { b: '', guests: 2, apt: null, in: null, out: null, month: new Date(today.getFullYear(), today.getMonth(), 1), step: 1, pm: 'card' };
   const MIN_N = 2;
 
-  const BLABEL = { '': 'Todos', breeze: 'Breeze', pareclaret: 'Pare Claret', fenals: 'Fenals' };
+  const BLABEL = { '': t('bk.all'), breeze: 'Breeze', pareclaret: 'Pare Claret', fenals: 'Fenals' };
   $('#bk-bfilter').innerHTML = Object.entries(BLABEL).map(([k, v]) =>
     `<button type="button" data-b="${k}" aria-pressed="${k === st.b}">${v}</button>`).join('');
 
@@ -201,16 +202,16 @@
       let avail = '';
       if (st.in && st.out) {
         const ok = rangeFree(a, st.in, st.out);
-        avail = ok ? '<span class="av av--ok">Libre en tus fechas</span>' : '<span class="av av--no">Ocupado en tus fechas</span>';
+        avail = ok ? `<span class="av av--ok">${t('av.ok')}</span>` : `<span class="av av--no">${t('av.no')}</span>`;
       }
       return `
       <button type="button" class="apt apt--${a.b}${st.apt === a ? ' is-sel' : ''}" data-id="${a.id}" ${tooSmall ? 'disabled' : ''}>
         <img src="${PH.photo(a, 1, true)}" alt="" loading="lazy">
         <span class="apt__b">${B.name}</span>
         <b class="apt__n">${a.name}</b>
-        <span class="apt__meta">${a.m2} m² · ${a.beds} hab. · hasta ${a.cap}</span>
-        <span class="apt__p">desde <b>${PH.eur(a.base)}</b>/noche</span>
-        ${tooSmall ? `<span class="av av--no">Máx. ${a.cap} huéspedes</span>` : avail}
+        <span class="apt__meta">${PH.aptMeta(a)}</span>
+        <span class="apt__p">${t('u.from')} <b>${PH.eur(a.base)}</b>${t('u.perNight')}</span>
+        ${tooSmall ? `<span class="av av--no">${t('av.max', { n: a.cap })}</span>` : avail}
       </button>`;
     }).join('');
   }
@@ -236,7 +237,8 @@
   }));
 
   // Calendario
-  const WD = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+  // iniciales de los días (lunes primero) en el idioma activo
+  const WD = Array.from({ length: 7 }, (_, i) => new Date(2024, 0, 1 + i).toLocaleDateString(PH.locale, { weekday: 'narrow' }));
   function monthHTML(m0) {
     const y = m0.getFullYear(), m = m0.getMonth();
     const first = new Date(y, m, 1), days = new Date(y, m + 1, 0).getDate();
@@ -267,9 +269,9 @@
       if (st.out && +d === +st.out) cls += ' is-out';
       if (st.in && st.out && d > st.in && d < st.out) cls += ' is-range';
       const price = !busy && !past ? `<small>${PH.nightPrice(a, d)}</small>` : '';
-      cells += `<button type="button" class="${cls}" data-d="${PH.ymd(d)}" ${dis ? 'disabled' : ''} aria-label="${PH.fmtDate(d, { weekday: 'long', day: 'numeric', month: 'long' })}${busy ? ', ocupado' : ''}">${i}${price}</button>`;
+      cells += `<button type="button" class="${cls}" data-d="${PH.ymd(d)}" ${dis ? 'disabled' : ''} aria-label="${PH.fmtDate(d, { weekday: 'long', day: 'numeric', month: 'long' })}${busy ? ', ' + t('cal.busy') : ''}">${i}${price}</button>`;
     }
-    const title = first.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+    const title = first.toLocaleDateString(PH.locale, { month: 'long', year: 'numeric' });
     return `<div class="cal__m"><h4>${title[0].toUpperCase() + title.slice(1)}</h4><div class="cal__g">${cells}</div></div>`;
   }
   function renderCal() {
@@ -277,9 +279,10 @@
     const m2 = new Date(st.month.getFullYear(), st.month.getMonth() + 1, 1);
     $('#cal').innerHTML = monthHTML(st.month) + monthHTML(m2);
     $('#cal-prev').disabled = st.month <= new Date(today.getFullYear(), today.getMonth(), 1);
-    $('#cal-hint').textContent = !st.in ? 'Elige el día de llegada'
-      : !st.out ? `Llegada el ${PH.fmtDate(st.in)} · ahora elige la salida (mín. ${MIN_N} noches)`
-      : `${PH.nights(st.in, st.out)} noches · ${PH.fmtDate(st.in)} → ${PH.fmtDate(st.out)}`;
+    const nN = st.in && st.out ? PH.nights(st.in, st.out) : 0;
+    $('#cal-hint').textContent = !st.in ? t('cal.pickIn')
+      : !st.out ? t('cal.pickOut', { d: PH.fmtDate(st.in), n: MIN_N })
+      : `${nN} ${tn('u.nights', nN)} · ${PH.fmtDate(st.in)} → ${PH.fmtDate(st.out)}`;
     $('#to-3').disabled = !(st.in && st.out);
   }
   $('#cal').addEventListener('click', (e) => {
@@ -289,7 +292,7 @@
       if (PH.isBooked(st.apt, d)) return;
       st.in = d; st.out = null;
     } else {
-      if (PH.nights(st.in, d) < MIN_N) { $('#cal-hint').textContent = `La estancia mínima es de ${MIN_N} noches`; return; }
+      if (PH.nights(st.in, d) < MIN_N) { $('#cal-hint').textContent = t('cal.min', { n: MIN_N }); return; }
       st.out = d;
     }
     renderCal(); renderSum();
@@ -308,7 +311,7 @@
   function renderSum() {
     const el = $('#bk-sum');
     if (!st.apt) {
-      el.innerHTML = `<div class="sum-empty"><img src="assets/img/logo-original.png" alt=""><p>Elige un apartamento para ver aquí el resumen y el precio.</p></div>`;
+      el.innerHTML = `<div class="sum-empty"><img src="assets/img/logo-original.png" alt=""><p>${t('sum.empty')}</p></div>`;
       return;
     }
     const a = st.apt, B = PH.BUILDINGS[a.b];
@@ -316,23 +319,23 @@
     if (st.in && st.out) {
       const c = calc();
       rows = `
-        <dl class="sum-dates"><div><dt>Llegada</dt><dd>${PH.fmtDate(st.in, { weekday: 'short', day: 'numeric', month: 'short' })}</dd></div>
-        <div><dt>Salida</dt><dd>${PH.fmtDate(st.out, { weekday: 'short', day: 'numeric', month: 'short' })}</dd></div>
-        <div><dt>Huéspedes</dt><dd>${st.guests}</dd></div></dl>
+        <dl class="sum-dates"><div><dt>${t('q.in')}</dt><dd>${PH.fmtDate(st.in, { weekday: 'short', day: 'numeric', month: 'short' })}</dd></div>
+        <div><dt>${t('q.out')}</dt><dd>${PH.fmtDate(st.out, { weekday: 'short', day: 'numeric', month: 'short' })}</dd></div>
+        <div><dt>${t('q.guests')}</dt><dd>${st.guests}</dd></div></dl>
         <ul class="sum-lines">
-          <li><span>${c.n} noches</span><b>${PH.eur(c.stay)}</b></li>
-          <li><span>Limpieza final</span><b>${PH.eur(PH.CLEANING)}</b></li>
-          <li><span>Tasa turística</span><b>${c.tax.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</b></li>
-          <li class="sum-total"><span>Total</span><b>${c.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</b></li>
+          <li><span>${c.n} ${tn('u.nights', c.n)}</span><b>${PH.eur(c.stay)}</b></li>
+          <li><span>${t('sum.cleaning')}</span><b>${PH.eur(PH.CLEANING)}</b></li>
+          <li><span>${t('sum.tax')}</span><b>${PH.eur(c.tax, 2)}</b></li>
+          <li class="sum-total"><span>${t('sum.total')}</span><b>${PH.eur(c.total, 2)}</b></li>
         </ul>
-        <p class="sum-note">${st.pm === 'arrival' ? 'Hoy no pagas nada.' : 'Cancelación gratuita hasta 7 días antes.'}</p>`;
+        <p class="sum-note">${st.pm === 'arrival' ? t('sum.payNothing') : t('sum.cancel')}</p>`;
     } else {
-      rows = `<p class="sum-note">Elige fechas en el calendario para calcular el precio. Desde ${PH.eur(a.base)}/noche en temporada baja.</p>`;
+      rows = `<p class="sum-note">${t('sum.pickDates', { p: PH.eur(a.base) })}</p>`;
     }
     el.innerHTML = `
       <div class="sum-photo"><img src="${PH.photo(a, 1, true)}" alt=""><span class="sum-b sum-b--${a.b}">${B.name}</span></div>
       <h3>${a.name}</h3>
-      <p class="sum-meta">${a.m2} m² · ${a.beds} hab. · hasta ${a.cap} huéspedes</p>
+      <p class="sum-meta">${PH.aptMeta(a, true)}</p>
       ${rows}`;
   }
 
@@ -341,7 +344,7 @@
   $('#paym').addEventListener('change', (e) => {
     st.pm = e.target.value;
     $$('.pm-pane').forEach((p) => p.classList.toggle('is-on', p.dataset.pm === st.pm));
-    $('#pay-btn').textContent = st.pm === 'arrival' ? 'Confirmar reserva' : 'Confirmar y pagar';
+    $('#pay-btn').textContent = st.pm === 'arrival' ? t('bk.confirmBtn') : t('bk.payBtn');
     renderSum();
   });
   const cv = $('#cardviz');
@@ -353,10 +356,10 @@
   pay.exp.addEventListener('input', () => {
     let v = pay.exp.value.replace(/\D/g, '').slice(0, 4);
     if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
-    pay.exp.value = v; cv.querySelector('.cv-exp').textContent = v || 'MM/AA';
+    pay.exp.value = v; cv.querySelector('.cv-exp').textContent = v || t('cv.exp');
   });
   pay.cvc.addEventListener('input', () => { pay.cvc.value = pay.cvc.value.replace(/\D/g, '').slice(0, 4); });
-  pay.name.addEventListener('input', () => { cv.querySelector('.cv-name').textContent = pay.name.value.toUpperCase() || 'TU NOMBRE'; });
+  pay.name.addEventListener('input', () => { cv.querySelector('.cv-name').textContent = pay.name.value.toUpperCase() || t('cv.name'); });
 
   pay.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -378,11 +381,11 @@
     if (!chk.checked) ok = false;
     if (!ok) { pay.querySelector('.is-bad input, .is-bad textarea')?.focus(); return; }
     const btn = $('#pay-btn');
-    btn.disabled = true; btn.textContent = 'Procesando…';
+    btn.disabled = true; btn.textContent = t('bk.processing');
     setTimeout(() => {
       $('#done-code').textContent = 'PH-' + Math.random().toString(36).slice(2, 7).toUpperCase();
       $('#done-mail').textContent = pay.email.value;
-      btn.disabled = false; btn.textContent = st.pm === 'arrival' ? 'Confirmar reserva' : 'Confirmar y pagar';
+      btn.disabled = false; btn.textContent = st.pm === 'arrival' ? t('bk.confirmBtn') : t('bk.payBtn');
       goStep(4);
       $('#bk-steps li:last-child').classList.add('is-done');
     }, 1100);
@@ -433,14 +436,14 @@
     { n: 'Laura', f: 'Madrid', b: 'breeze', s: 5, t: 'Salimos del portal y en un minuto estábamos en la arena. El apartamento, impecable y con mucho encanto.' },
     { n: 'Marc', f: 'Girona', b: 'pareclaret', s: 5, t: 'Tener parking en pleno centro de Lloret no tiene precio. La terraza para desayunar, un lujo.' },
     { n: 'Sophie', f: 'Lyon', b: 'fenals', s: 5, t: 'Parfait avec les enfants : piscine, calme et la plage de Fenals à deux pas.' },
-    { n: 'Jan', f: 'Ámsterdam', b: 'breeze', s: 4, t: 'Clean, modern and quiet. Great kitchen, we cooked most evenings. Very responsive host.' },
-    { n: 'Anna', f: 'Varsovia', b: 'pareclaret', s: 5, t: 'Bardzo przytulnie, wszystko czyste. Dostaliśmy łóżeczko dla dziecka bez problemu.' },
+    { n: 'Jan', f: 'Amsterdam', b: 'breeze', s: 4, t: 'Clean, modern and quiet. Great kitchen, we cooked most evenings. Very responsive host.' },
+    { n: 'Anna', f: 'Warszawa', b: 'pareclaret', s: 5, t: 'Bardzo przytulnie, wszystko czyste. Dostaliśmy łóżeczko dla dziecka bez problemu.' },
     { n: 'Jordi', f: 'Barcelona', b: 'breeze', s: 5, t: 'Estil grec, llum a tot arreu i la platja a tocar. Tornarem segur!' },
-    { n: 'Tom', f: 'Mánchester', b: 'fenals', s: 4, t: 'Lovely balcony over the pine trees. A short walk to the coastal path and the beach bars.' },
+    { n: 'Tom', f: 'Manchester', b: 'fenals', s: 4, t: 'Lovely balcony over the pine trees. A short walk to the coastal path and the beach bars.' },
   ];
   $('#rev-track').innerHTML = REVIEWS.map((r, i) => `
     <article class="rev rev--${r.b}" style="--i:${i}">
-      <div class="rev__stars" aria-label="${r.s} de 5">${Array.from({ length: 5 }, (_, k) => `<span class="${k < r.s ? 'on' : ''}">${PH.icon('star')}</span>`).join('')}</div>
+      <div class="rev__stars" aria-label="${t('rev.of5', { n: r.s })}">${Array.from({ length: 5 }, (_, k) => `<span class="${k < r.s ? 'on' : ''}">${PH.icon('star')}</span>`).join('')}</div>
       <p>“${r.t}”</p>
       <footer><span class="rev__av">${r.n[0]}</span><span><b>${r.n}</b><small>${r.f} · ${PH.BUILDINGS[r.b].name}</small></span></footer>
     </article>`).join('');
@@ -460,7 +463,7 @@
         <p>${PH.icon('pin')} ${l.address}</p>
         <div class="loc__links">
           ${l.buildings.map((b) => `<a href="${PH.BUILDINGS[b].page}" data-wing>${PH.BUILDINGS[b].name}</a>`).join('')}
-          <a href="https://www.google.com/maps/dir/?api=1&destination=${l.lat},${l.lng}" target="_blank" rel="noopener">Ruta en Google Maps ${PH.icon('arrow')}</a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=${l.lat},${l.lng}" target="_blank" rel="noopener">${t('loc.route')} ${PH.icon('arrow')}</a>
         </div>
       </div>
     </article>`).join('');

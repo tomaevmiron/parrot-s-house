@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parrot's House · Apartamentos en Lloret de Mar</title>
-  <meta name="description" content="Parrot's House: 16 apartamentos turísticos en Lloret de Mar, Costa Brava. Aparthotel Breeze junto a la playa, Pare Claret en el centro con parking y Fenals con piscina.">
+  <title data-i18n="meta.title">Parrot's House · Apartamentos en Lloret de Mar</title>
+  <meta name="description" data-i18n-attr="content:meta.desc" content="Parrot's House: 16 apartamentos turísticos en Lloret de Mar, Costa Brava. Aparthotel Breeze junto a la playa, Pare Claret en el centro con parking y Fenals con piscina.">
   <link rel="icon" type="image/png" href="assets/img/logo-original.png">
   <meta name="theme-color" content="#0f70b7">
   <script>
@@ -16,7 +16,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Marcellus&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Marcellus&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@600;800&family=Onest:wght@400;500;600;700;800&family=Forum&family=Lora:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/home.css">
@@ -33,26 +33,26 @@
     <h1 class="intro__name"><span>Parrot's</span> <span>House</span><sup>®</sup></h1>
     <p class="intro__tag">Holiday apartments · Lloret de Mar</p>
   </div>
-  <button class="intro__skip" type="button">Saltar</button>
+  <button class="intro__skip" type="button" data-i18n="skip">Saltar</button>
 </div>
 
 <!-- ============ CABECERA ============ -->
 <header class="header" id="header">
   <div class="wrap">
-    <a class="brand" href="#inicio" aria-label="Parrot's House, inicio">
-      <img src="assets/img/logo-original.png" alt="Logo de Parrot's House" width="46" height="46">
+    <a class="brand" href="#inicio" data-i18n-attr="aria-label:aria.home" aria-label="Parrot's House, inicio">
+      <img src="assets/img/logo-original.png" data-i18n-attr="alt:alt.logo" alt="Logo de Parrot's House" width="46" height="46">
       <span><b>Parrot's House<sup>®</sup></b><small>Holiday apartments</small></span>
     </a>
     <nav class="nav" id="nav" aria-label="Principal">
-      <a href="#inicio">Inicio</a>
-      <a href="#apartamentos">Apartamentos</a>
-      <a href="#alrededores">Alrededores</a>
-      <a href="#reserva">Reservar</a>
-      <a href="#resenas">Reseñas</a>
-      <a href="#como-llegar">Cómo llegar</a>
+      <a href="#inicio" data-i18n="nav.home">Inicio</a>
+      <a href="#apartamentos" data-i18n="nav.apts">Apartamentos</a>
+      <a href="#alrededores" data-i18n="nav.around">Alrededores</a>
+      <a href="#reserva" data-i18n="nav.book">Reservar</a>
+      <a href="#resenas" data-i18n="nav.reviews">Reseñas</a>
+      <a href="#como-llegar" data-i18n="nav.reach">Cómo llegar</a>
     </nav>
-    <a class="btn btn--red btn--sm" href="#reserva">Reservar ahora</a>
-    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <a class="btn btn--red btn--sm" href="#reserva" data-i18n="cta.bookNow">Reservar ahora</a>
+    <button class="burger" id="burger" data-i18n-attr="aria-label:aria.menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -68,26 +68,22 @@
   <div class="wrap hero__grid">
     <div class="hero__text">
       <span class="plume rise">Holiday apartments · Lloret de Mar</span>
-      <h1 class="hero__title rise" style="--d:.08s">Tu nido en la <em>Costa&nbsp;Brava</em></h1>
-      <p class="hero__lead rise" style="--d:.16s">
-        16 apartamentos en tres puntos de Lloret de Mar: un aparthotel de estilo griego a pasos de la playa central,
-        un edificio con parking en pleno centro y dos apartamentos con piscina en la tranquila Fenals.
-        A 45 minutos del aeropuerto de Barcelona y 20 del de Girona.
-      </p>
+      <h1 class="hero__title rise" style="--d:.08s" data-i18n-html="hero.title">Tu nido en la <em>Costa&nbsp;Brava</em></h1>
+      <p class="hero__lead rise" style="--d:.16s" data-i18n="hero.lead">16 apartamentos en tres puntos de Lloret de Mar: un aparthotel de estilo griego a pasos de la playa central, un edificio con parking en pleno centro y dos apartamentos con piscina en la tranquila Fenals. A 45 minutos del aeropuerto de Barcelona y 20 del de Girona.</p>
       <div class="hero__ctas rise" style="--d:.24s">
-        <a class="btn" href="#apartamentos">Elegir apartamento <i data-ico="arrow"></i></a>
-        <a class="btn btn--ghost" href="#alrededores">Qué hay cerca</a>
+        <a class="btn" href="#apartamentos"><span data-i18n="hero.cta1">Elegir apartamento</span> <i data-ico="arrow"></i></a>
+        <a class="btn btn--ghost" href="#alrededores" data-i18n="hero.cta2">Qué hay cerca</a>
       </div>
       <dl class="hero__facts rise" style="--d:.32s">
-        <div><dt>16</dt><dd>apartamentos</dd></div>
-        <div><dt>3</dt><dd>ubicaciones</dd></div>
-        <div><dt>50 m</dt><dd>de la playa central</dd></div>
-        <div><dt>24/7</dt><dd>atención al huésped</dd></div>
+        <div><dt>16</dt><dd data-i18n="fact.apts">apartamentos</dd></div>
+        <div><dt>3</dt><dd data-i18n="fact.locs">ubicaciones</dd></div>
+        <div><dt>50 m</dt><dd data-i18n="fact.beach">de la playa central</dd></div>
+        <div><dt>24/7</dt><dd data-i18n="fact.care">atención al huésped</dd></div>
       </dl>
     </div>
     <div class="hero__media rise" style="--d:.12s">
-      <figure class="hero__photo hero__photo--main"><img src="assets/img/lloret/06.jpg" alt="Vista aérea de la bahía de Lloret de Mar"></figure>
-      <figure class="hero__photo hero__photo--small"><img src="assets/img/apt/19/01.jpg" alt="Salón de un apartamento del aparthotel Breeze"></figure>
+      <figure class="hero__photo hero__photo--main"><img src="assets/img/lloret/06.jpg" data-i18n-attr="alt:alt.heroMain" alt="Vista aérea de la bahía de Lloret de Mar"></figure>
+      <figure class="hero__photo hero__photo--small"><img src="assets/img/apt/19/01.jpg" data-i18n-attr="alt:alt.heroSmall" alt="Salón de un apartamento del aparthotel Breeze"></figure>
       <div class="hero__badge">
         <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
           <text><textPath href="#circ">PARROT'S HOUSE · LLORET DE MAR · </textPath></text></svg>
@@ -98,25 +94,25 @@
 
   <!-- Buscador rápido (arriba) → rellena el widget de reserva completo (abajo) -->
   <form class="quick wrap rise" id="quick" style="--d:.4s" autocomplete="off">
-    <label class="quick__f"><span>Edificio</span>
+    <label class="quick__f"><span data-i18n="q.building">Edificio</span>
       <select name="b" id="q-b">
-        <option value="">Cualquiera</option>
-        <option value="breeze">Breeze · playa</option>
-        <option value="pareclaret">Pare Claret · centro</option>
-        <option value="fenals">Fenals · piscina</option>
+        <option value="" data-i18n="q.any">Cualquiera</option>
+        <option value="breeze" data-i18n="q.opt.breeze">Breeze · playa</option>
+        <option value="pareclaret" data-i18n="q.opt.pareclaret">Pare Claret · centro</option>
+        <option value="fenals" data-i18n="q.opt.fenals">Fenals · piscina</option>
       </select></label>
-    <label class="quick__f"><span>Llegada</span><input type="date" name="in" id="q-in" required></label>
-    <label class="quick__f"><span>Salida</span><input type="date" name="out" id="q-out" required></label>
-    <label class="quick__f quick__f--s"><span>Huéspedes</span>
+    <label class="quick__f"><span data-i18n="q.in">Llegada</span><input type="date" name="in" id="q-in" required></label>
+    <label class="quick__f"><span data-i18n="q.out">Salida</span><input type="date" name="out" id="q-out" required></label>
+    <label class="quick__f quick__f--s"><span data-i18n="q.guests">Huéspedes</span>
       <select name="g" id="q-g"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label>
-    <button class="btn btn--red" type="submit">Ver disponibilidad</button>
+    <button class="btn btn--red" type="submit" data-i18n="q.go">Ver disponibilidad</button>
   </form>
 </section>
 
 <!-- ============ QUÉ OFRECEMOS ============ -->
 <section class="perks" aria-labelledby="perks-t">
   <div class="wrap">
-    <h2 id="perks-t" class="sr-only">Servicios incluidos</h2>
+    <h2 id="perks-t" class="sr-only" data-i18n="perks.title">Servicios incluidos</h2>
     <ul class="perks__list" id="perks"></ul>
   </div>
 </section>
@@ -125,9 +121,9 @@
 <section class="buildings" id="apartamentos">
   <div class="wrap">
     <div class="sec-head">
-      <span class="plume rise">Apartamentos</span>
-      <h2 class="section-title rise">Elige dónde posarte</h2>
-      <p class="section-lead rise">Tres casas, tres caracteres. Cada edificio tiene su propio estilo: entra en el que más te guste y elige el piso que prefieras dentro.</p>
+      <span class="plume rise" data-i18n="nav.apts">Apartamentos</span>
+      <h2 class="section-title rise" data-i18n="sec.apts.title">Elige dónde posarte</h2>
+      <p class="section-lead rise" data-i18n="sec.apts.lead">Tres casas, tres caracteres. Cada edificio tiene su propio estilo: entra en el que más te guste y elige el piso que prefieras dentro.</p>
     </div>
     <div class="bgrid" id="bgrid"></div>
   </div>
@@ -138,29 +134,29 @@
   <div class="wrap">
     <div class="sec-head sec-head--split">
       <div>
-        <span class="plume rise">Alrededores</span>
-        <h2 class="section-title rise">Lloret, a vuelo de loro</h2>
-        <p class="section-lead rise">Playas, monumentos, restaurantes y planes, con la distancia a pie desde tu apartamento. Elige desde dónde sales.</p>
+        <span class="plume rise" data-i18n="nav.around">Alrededores</span>
+        <h2 class="section-title rise" data-i18n="sec.around.title">Lloret, a vuelo de loro</h2>
+        <p class="section-lead rise" data-i18n="sec.around.lead">Playas, monumentos, restaurantes y planes, con la distancia a pie desde tu apartamento. Elige desde dónde sales.</p>
       </div>
-      <div class="origin rise" role="tablist" aria-label="Salgo desde" id="origin"></div>
+      <div class="origin rise" role="tablist" data-i18n-attr="aria-label:aria.origin" aria-label="Salgo desde" id="origin"></div>
     </div>
 
     <div class="around__key" id="around-key"></div>
 
     <div class="around__body">
       <div class="around__list">
-        <div class="cats" id="cats" role="group" aria-label="Filtrar por tipo"></div>
+        <div class="cats" id="cats" role="group" data-i18n-attr="aria-label:aria.cats" aria-label="Filtrar por tipo"></div>
         <ol class="places" id="places"></ol>
-        <p class="fine">Distancias aproximadas a pie calculadas desde la dirección de cada edificio.</p>
+        <p class="fine" data-i18n="around.fine">Distancias aproximadas a pie calculadas desde la dirección de cada edificio.</p>
       </div>
       <aside class="around__aside">
         <figure class="around__photo" id="around-photo">
-          <img src="assets/img/lloret/05.jpg" alt="Playa de Lloret de Mar con el castillo al fondo">
-          <figcaption id="around-cap">La playa de Lloret y el Castell d'en Plaja</figcaption>
+          <img src="assets/img/lloret/05.jpg" data-i18n-attr="alt:cap.all" alt="La playa de Lloret y el Castell d'en Plaja">
+          <figcaption id="around-cap" data-i18n="cap.all">La playa de Lloret y el Castell d'en Plaja</figcaption>
         </figure>
         <div class="tips">
-          <h3>Consejo de la casa</h3>
-          <p>Recorre el camino de ronda desde Sa Caleta hasta Fenals al atardecer: calas, pinos y la Dona Marinera mirando al mar.</p>
+          <h3 data-i18n="tips.title">Consejo de la casa</h3>
+          <p data-i18n="tips.text">Recorre el camino de ronda desde Sa Caleta hasta Fenals al atardecer: calas, pinos y la Dona Marinera mirando al mar.</p>
         </div>
       </aside>
     </div>
@@ -171,27 +167,27 @@
 <section class="booking" id="reserva">
   <div class="wrap">
     <div class="sec-head">
-      <span class="plume rise">Reserva y pago</span>
-      <h2 class="section-title rise">Reserva tu nido</h2>
-      <p class="section-lead rise">Tres pasos y listo. Precio final sin sorpresas: ves el desglose antes de pagar.</p>
+      <span class="plume rise" data-i18n="sec.book.plume">Reserva y pago</span>
+      <h2 class="section-title rise" data-i18n="sec.book.title">Reserva tu nido</h2>
+      <p class="section-lead rise" data-i18n="sec.book.lead">Tres pasos y listo. Precio final sin sorpresas: ves el desglose antes de pagar.</p>
     </div>
 
     <div class="bk rise" id="bk">
       <div class="bk__main">
         <ol class="bk__steps" id="bk-steps">
-          <li class="is-on"><b>1</b> Apartamento</li>
-          <li><b>2</b> Fechas</li>
-          <li><b>3</b> Datos y pago</li>
+          <li class="is-on"><b>1</b> <span data-i18n="step1">Apartamento</span></li>
+          <li><b>2</b> <span data-i18n="step2">Fechas</span></li>
+          <li><b>3</b> <span data-i18n="step3">Datos y pago</span></li>
         </ol>
 
         <!-- Paso 1 -->
         <div class="bk__pane is-on" data-step="1">
           <div class="bk__filters">
-            <div class="seg" id="bk-bfilter" role="group" aria-label="Edificio"></div>
-            <label class="stepper"><span>Huéspedes</span>
-              <button type="button" data-g="-1" aria-label="Menos huéspedes">−</button>
+            <div class="seg" id="bk-bfilter" role="group" data-i18n-attr="aria-label:q.building" aria-label="Edificio"></div>
+            <label class="stepper"><span data-i18n="q.guests">Huéspedes</span>
+              <button type="button" data-g="-1" data-i18n-attr="aria-label:aria.lessGuests" aria-label="Menos huéspedes">−</button>
               <output id="bk-guests">2</output>
-              <button type="button" data-g="1" aria-label="Más huéspedes">+</button>
+              <button type="button" data-g="1" data-i18n-attr="aria-label:aria.moreGuests" aria-label="Más huéspedes">+</button>
             </label>
           </div>
           <div class="bk__apts" id="bk-apts"></div>
@@ -200,68 +196,68 @@
         <!-- Paso 2 -->
         <div class="bk__pane" data-step="2">
           <div class="cal-head">
-            <button type="button" class="cal-nav" id="cal-prev" aria-label="Mes anterior"><i data-ico="back"></i></button>
-            <p id="cal-hint">Elige el día de llegada</p>
-            <button type="button" class="cal-nav" id="cal-next" aria-label="Mes siguiente"><i data-ico="arrow"></i></button>
+            <button type="button" class="cal-nav" id="cal-prev" data-i18n-attr="aria-label:aria.prevMonth" aria-label="Mes anterior"><i data-ico="back"></i></button>
+            <p id="cal-hint" data-i18n="cal.pickIn">Elige el día de llegada</p>
+            <button type="button" class="cal-nav" id="cal-next" data-i18n-attr="aria-label:aria.nextMonth" aria-label="Mes siguiente"><i data-ico="arrow"></i></button>
           </div>
           <div class="cal" id="cal"></div>
-          <div class="cal-legend"><span><i class="l-free"></i>Libre</span><span><i class="l-busy"></i>Ocupado</span><span><i class="l-sel"></i>Tu estancia</span></div>
+          <div class="cal-legend"><span><i class="l-free"></i><span data-i18n="leg.free">Libre</span></span><span><i class="l-busy"></i><span data-i18n="leg.busy">Ocupado</span></span><span><i class="l-sel"></i><span data-i18n="leg.sel">Tu estancia</span></span></div>
           <div class="bk__nav">
-            <button type="button" class="btn btn--ghost" data-go="1"><i data-ico="back"></i> Cambiar piso</button>
-            <button type="button" class="btn" data-go="3" id="to-3" disabled>Continuar <i data-ico="arrow"></i></button>
+            <button type="button" class="btn btn--ghost" data-go="1"><i data-ico="back"></i> <span data-i18n="bk.change">Cambiar piso</span></button>
+            <button type="button" class="btn" data-go="3" id="to-3" disabled><span data-i18n="bk.continue">Continuar</span> <i data-ico="arrow"></i></button>
           </div>
         </div>
 
         <!-- Paso 3 -->
         <form class="bk__pane" data-step="3" id="pay" novalidate>
           <fieldset>
-            <legend>Tus datos</legend>
+            <legend data-i18n="f.data">Tus datos</legend>
             <div class="fgrid">
-              <label class="field"><span>Nombre y apellidos</span><input name="name" required autocomplete="name"></label>
-              <label class="field"><span>Email</span><input name="email" type="email" required autocomplete="email"></label>
-              <label class="field"><span>Teléfono</span><input name="tel" type="tel" required autocomplete="tel"></label>
-              <label class="field"><span>Hora de llegada aprox.</span>
-                <select name="eta"><option>14:00 – 16:00</option><option selected>16:00 – 19:00</option><option>19:00 – 22:00</option><option>Después de las 22:00</option></select></label>
-              <label class="field field--full"><span>Peticiones (opcional)</span><textarea name="notes" rows="2" placeholder="Cuna, trona, traslado desde el aeropuerto…"></textarea></label>
+              <label class="field"><span data-i18n="f.name">Nombre y apellidos</span><input name="name" required autocomplete="name"></label>
+              <label class="field"><span data-i18n="f.email">Email</span><input name="email" type="email" required autocomplete="email"></label>
+              <label class="field"><span data-i18n="f.tel">Teléfono</span><input name="tel" type="tel" required autocomplete="tel"></label>
+              <label class="field"><span data-i18n="f.eta">Hora de llegada aprox.</span>
+                <select name="eta"><option>14:00 – 16:00</option><option selected>16:00 – 19:00</option><option>19:00 – 22:00</option><option data-i18n="f.after22">Después de las 22:00</option></select></label>
+              <label class="field field--full"><span data-i18n="f.notes">Peticiones (opcional)</span><textarea name="notes" rows="2" data-i18n-attr="placeholder:f.notesPh" placeholder="Cuna, trona, traslado desde el aeropuerto…"></textarea></label>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Forma de pago</legend>
+            <legend data-i18n="f.pay">Forma de pago</legend>
             <div class="paym" id="paym">
-              <label><input type="radio" name="pm" value="card" checked><span><i data-ico="card"></i> Tarjeta</span></label>
+              <label><input type="radio" name="pm" value="card" checked><span><i data-ico="card"></i> <span data-i18n="pm.card">Tarjeta</span></span></label>
               <label><input type="radio" name="pm" value="bizum"><span><b class="bz">bizum</b> Bizum</span></label>
-              <label><input type="radio" name="pm" value="arrival"><span><i data-ico="clock"></i> Pagar al llegar</span></label>
+              <label><input type="radio" name="pm" value="arrival"><span><i data-ico="clock"></i> <span data-i18n="pm.arrival">Pagar al llegar</span></span></label>
             </div>
             <div class="pm-pane is-on" data-pm="card">
               <div class="cardviz" id="cardviz" aria-hidden="true">
                 <img src="assets/img/logo-original.png" alt="">
                 <span class="cv-num">•••• •••• •••• ••••</span>
-                <span class="cv-name">TU NOMBRE</span><span class="cv-exp">MM/AA</span>
+                <span class="cv-name" data-i18n="cv.name">TU NOMBRE</span><span class="cv-exp" data-i18n="cv.exp">MM/AA</span>
               </div>
               <div class="fgrid">
-                <label class="field field--full"><span>Número de tarjeta</span><input name="cc" inputmode="numeric" placeholder="4242 4242 4242 4242" maxlength="19" autocomplete="off"></label>
-                <label class="field"><span>Caducidad</span><input name="exp" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="off"></label>
+                <label class="field field--full"><span data-i18n="f.cc">Número de tarjeta</span><input name="cc" inputmode="numeric" placeholder="4242 4242 4242 4242" maxlength="19" autocomplete="off"></label>
+                <label class="field"><span data-i18n="f.exp">Caducidad</span><input name="exp" data-i18n-attr="placeholder:cv.exp" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="off"></label>
                 <label class="field"><span>CVC</span><input name="cvc" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="off"></label>
               </div>
             </div>
-            <div class="pm-pane" data-pm="bizum"><p>Te enviaremos una solicitud de pago Bizum al teléfono indicado al confirmar.</p></div>
-            <div class="pm-pane" data-pm="arrival"><p>Pagas el total al llegar, en efectivo o con tarjeta. Guardamos tu reserva 48 h sin cargo.</p></div>
+            <div class="pm-pane" data-pm="bizum"><p data-i18n="pm.bizumText">Te enviaremos una solicitud de pago Bizum al teléfono indicado al confirmar.</p></div>
+            <div class="pm-pane" data-pm="arrival"><p data-i18n="pm.arrivalText">Pagas el total al llegar, en efectivo o con tarjeta. Guardamos tu reserva 48 h sin cargo.</p></div>
           </fieldset>
-          <label class="check"><input type="checkbox" name="ok" required> Acepto las condiciones de reserva y la política de cancelación.</label>
-          <p class="sim"><i data-ico="lock"></i> Simulación de pago: no se realiza ningún cargo real.</p>
+          <label class="check"><input type="checkbox" name="ok" required> <span data-i18n="f.terms">Acepto las condiciones de reserva y la política de cancelación.</span></label>
+          <p class="sim"><i data-ico="lock"></i> <span data-i18n="f.sim">Simulación de pago: no se realiza ningún cargo real.</span></p>
           <div class="bk__nav">
-            <button type="button" class="btn btn--ghost" data-go="2"><i data-ico="back"></i> Fechas</button>
-            <button type="submit" class="btn btn--red" id="pay-btn">Confirmar y pagar</button>
+            <button type="button" class="btn btn--ghost" data-go="2"><i data-ico="back"></i> <span data-i18n="step2">Fechas</span></button>
+            <button type="submit" class="btn btn--red" id="pay-btn" data-i18n="bk.payBtn">Confirmar y pagar</button>
           </div>
         </form>
 
         <!-- Hecho -->
         <div class="bk__pane bk__done" data-step="4">
           <img src="assets/img/logo-original.png" alt="" class="done-logo">
-          <h3>¡Reserva confirmada!</h3>
-          <p>Código de reserva <b id="done-code">PH-0000</b>. Te hemos enviado los detalles a <b id="done-mail"></b>.</p>
-          <p class="fine">(Simulación: no se ha enviado ningún email ni realizado ningún cargo.)</p>
-          <button type="button" class="btn btn--ghost" id="bk-reset">Hacer otra reserva</button>
+          <h3 data-i18n="done.title">¡Reserva confirmada!</h3>
+          <p><span data-i18n="done.code">Código de reserva</span> <b id="done-code">PH-0000</b>. <span data-i18n="done.sent">Te hemos enviado los detalles a</span> <b id="done-mail"></b>.</p>
+          <p class="fine" data-i18n="done.fine">(Simulación: no se ha enviado ningún email ni realizado ningún cargo.)</p>
+          <button type="button" class="btn btn--ghost" id="bk-reset" data-i18n="done.again">Hacer otra reserva</button>
         </div>
       </div>
 
@@ -275,16 +271,16 @@
   <div class="wrap">
     <div class="sec-head sec-head--split">
       <div>
-        <span class="plume rise">Reseñas</span>
-        <h2 class="section-title rise">Lo que cuentan quienes ya se posaron aquí</h2>
+        <span class="plume rise" data-i18n="nav.reviews">Reseñas</span>
+        <h2 class="section-title rise" data-i18n="sec.rev.title">Lo que cuentan quienes ya se posaron aquí</h2>
       </div>
       <div class="rev-ctrl rise">
-        <button type="button" class="cal-nav" id="rev-prev" aria-label="Anterior"><i data-ico="back"></i></button>
-        <button type="button" class="cal-nav" id="rev-next" aria-label="Siguiente"><i data-ico="arrow"></i></button>
+        <button type="button" class="cal-nav" id="rev-prev" data-i18n-attr="aria-label:aria.prev" aria-label="Anterior"><i data-ico="back"></i></button>
+        <button type="button" class="cal-nav" id="rev-next" data-i18n-attr="aria-label:aria.next" aria-label="Siguiente"><i data-ico="arrow"></i></button>
       </div>
     </div>
     <div class="rev-track" id="rev-track"></div>
-    <p class="fine">Reseñas de muestra para el diseño: se sustituirán por las opiniones reales de los huéspedes.</p>
+    <p class="fine" data-i18n="rev.fine">Reseñas de muestra para el diseño: se sustituirán por las opiniones reales de los huéspedes.</p>
   </div>
 </section>
 
@@ -292,18 +288,18 @@
 <section class="reach" id="como-llegar">
   <div class="wrap">
     <div class="sec-head">
-      <span class="plume rise">Cómo llegar</span>
-      <h2 class="section-title rise">Tres direcciones en Lloret</h2>
+      <span class="plume rise" data-i18n="nav.reach">Cómo llegar</span>
+      <h2 class="section-title rise" data-i18n="sec.reach.title">Tres direcciones en Lloret</h2>
     </div>
     <div class="reach__grid">
-      <div class="map rise" id="map" role="region" aria-label="Mapa con las tres ubicaciones"></div>
+      <div class="map rise" id="map" role="region" data-i18n-attr="aria-label:aria.map" aria-label="Mapa con las tres ubicaciones"></div>
       <div class="locs" id="locs"></div>
     </div>
     <ul class="transport">
-      <li class="rise"><i data-ico="plane"></i><div><b>Aeropuerto de Barcelona</b><span>45 min en coche por la AP-7 / C-32. Ofrecemos traslado: pídelo al reservar.</span></div></li>
-      <li class="rise" style="--d:.06s"><i data-ico="plane"></i><div><b>Aeropuerto de Girona</b><span>Unos 20–30 min en coche o en bus directo hasta Lloret.</span></div></li>
-      <li class="rise" style="--d:.12s"><i data-ico="bus"></i><div><b>En autobús</b><span>Líneas directas desde Barcelona y Girona hasta la estación de autobuses de Lloret.</span></div></li>
-      <li class="rise" style="--d:.18s"><i data-ico="train"></i><div><b>En tren</b><span>Rodalies R1 hasta Blanes y bus o taxi hasta Lloret (unos 15 min).</span></div></li>
+      <li class="rise"><i data-ico="plane"></i><div><b data-i18n="tr.bcn.t">Aeropuerto de Barcelona</b><span data-i18n="tr.bcn.d">45 min en coche por la AP-7 / C-32. Ofrecemos traslado: pídelo al reservar.</span></div></li>
+      <li class="rise" style="--d:.06s"><i data-ico="plane"></i><div><b data-i18n="tr.gro.t">Aeropuerto de Girona</b><span data-i18n="tr.gro.d">Unos 20–30 min en coche o en bus directo hasta Lloret.</span></div></li>
+      <li class="rise" style="--d:.12s"><i data-ico="bus"></i><div><b data-i18n="tr.bus.t">En autobús</b><span data-i18n="tr.bus.d">Líneas directas desde Barcelona y Girona hasta la estación de autobuses de Lloret.</span></div></li>
+      <li class="rise" style="--d:.18s"><i data-ico="train"></i><div><b data-i18n="tr.train.t">En tren</b><span data-i18n="tr.train.d">Rodalies R1 hasta Blanes y bus o taxi hasta Lloret (unos 15 min).</span></div></li>
     </ul>
   </div>
 </section>
@@ -315,19 +311,19 @@
   <div class="wrap">
     <div class="grid">
       <div>
-        <a class="brand" href="#inicio"><img src="assets/img/logo-original.png" alt="Logo de Parrot's House" width="46" height="46"><span><b>Parrot's House<sup>®</sup></b><small>Holiday apartments</small></span></a>
-        <p class="about">Apartamentos turísticos en Lloret de Mar, Costa Brava. Gestionados por la familia de Parrot's House.</p>
+        <a class="brand" href="#inicio"><img src="assets/img/logo-original.png" data-i18n-attr="alt:alt.logo" alt="Logo de Parrot's House" width="46" height="46"><span><b>Parrot's House<sup>®</sup></b><small>Holiday apartments</small></span></a>
+        <p class="about" data-i18n="foot.about">Apartamentos turísticos en Lloret de Mar, Costa Brava.</p>
       </div>
       <div>
-        <h4>Edificios</h4>
+        <h4 data-i18n="foot.buildings">Edificios</h4>
         <ul>
-          <li><a href="breeze.html" data-wing>Aparthotel Breeze</a></li>
+          <li><a href="breeze.html" data-wing data-i18n="b.breeze.full">Aparthotel Breeze</a></li>
           <li><a href="pare-claret.html" data-wing>Pare Claret</a></li>
           <li><a href="fenals.html" data-wing>Fenals</a></li>
         </ul>
       </div>
       <div>
-        <h4>Direcciones</h4>
+        <h4 data-i18n="foot.addresses">Direcciones</h4>
         <ul>
           <li>Carrer Pare Claret, 16</li>
           <li>Carrer Emili Martínez, 8</li>
@@ -336,7 +332,7 @@
         </ul>
       </div>
       <div>
-        <h4>Contacto</h4>
+        <h4 data-i18n="foot.contact">Contacto</h4>
         <ul>
           <li><a class="contact-line" href="tel:+34628254672"><i data-ico="phone"></i> +34 628 254 672</a></li>
           <li><a class="contact-line" href="mailto:parrotshouse.eu@gmail.com"><i data-ico="mail"></i> parrotshouse.eu@gmail.com</a></li>
@@ -345,15 +341,16 @@
       </div>
     </div>
     <div class="legal">
-      <span>© <span id="year">2026</span> Parrot's House®. Nombre y logotipo son marcas registradas.</span>
+      <span>© <span id="year">2026</span> Parrot's House®. <span data-i18n="foot.legal">Nombre y logotipo son marcas registradas.</span></span>
       <span>Lloret de Mar · Costa Brava · Catalunya</span>
     </div>
   </div>
 </footer>
 
-<a class="wa" href="https://api.whatsapp.com/send?phone=34628254672" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><i data-ico="whatsapp"></i></a>
+<a class="wa" href="https://api.whatsapp.com/send?phone=34628254672" target="_blank" rel="noopener" data-i18n-attr="aria-label:aria.wa" aria-label="Escríbenos por WhatsApp"><i data-ico="whatsapp"></i></a>
 
 <script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/wing.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="assets/js/common.js"></script>

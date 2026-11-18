@@ -133,7 +133,7 @@ html.intro-pending body { overflow: hidden; }
   content: ''; height: 16px; margin: 2px 0 6px;
   background: var(--meander) repeat-x left center / 20px 16px;
 }
-.bcard--breeze .bcard__name { font-family: 'Marcellus', serif; font-weight: 400; text-transform: uppercase; letter-spacing: .14em; color: #1b5fa6; }
+.bcard--breeze .bcard__name { font-family: 'Marcellus', 'Forum', serif; font-weight: 400; text-transform: uppercase; letter-spacing: .14em; color: #1b5fa6; }
 .bcard--breeze .bcard__kind { color: #3b7fc4; }
 .bcard--breeze .bcard__perks li { border: 1px solid #bcd3ea; color: #1b5fa6; }
 .bcard--breeze .bcard__foot { border-color: #d3e2f1; }
@@ -143,7 +143,7 @@ html.intro-pending body { overflow: hidden; }
 /* Pare Claret — acogedor: crema, terracota, madera */
 .bcard--pareclaret { background: #fbf1e5; color: #4a2e1d; border-radius: 30px; }
 .bcard--pareclaret .bcard__media { margin: 14px 14px 0; border-radius: 22px; }
-.bcard--pareclaret .bcard__name { font-family: 'Fraunces', serif; font-style: italic; font-weight: 700; color: #b5532b; letter-spacing: -.01em; }
+.bcard--pareclaret .bcard__name { font-family: 'Fraunces', 'Lora', serif; font-style: italic; font-weight: 700; color: #b5532b; letter-spacing: -.01em; }
 .bcard--pareclaret .bcard__kind { color: #a0603a; }
 .bcard--pareclaret .bcard__perks li { background: #f4d9c1; color: #7a3f1e; border-radius: 8px; }
 .bcard--pareclaret .bcard__foot { border-color: #ecd3bb; }
@@ -155,7 +155,7 @@ html.intro-pending body { overflow: hidden; }
   background-image: linear-gradient(rgba(17, 120, 107, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 120, 107, .06) 1px, transparent 1px);
   background-size: 22px 22px;
 }
-.bcard--fenals .bcard__name { font-family: 'Nunito', sans-serif; font-weight: 800; color: #11786b; letter-spacing: -.02em; }
+.bcard--fenals .bcard__name { font-family: 'Nunito', 'Onest', sans-serif; font-weight: 800; color: #11786b; letter-spacing: -.02em; }
 .bcard--fenals .bcard__kind { color: #1a9a8a; }
 .bcard--fenals .bcard__perks li { background: #cdeee9; color: #0f5e54; border-radius: 10px 2px; }
 .bcard--fenals .bcard__foot { border-color: #c4e5df; }
@@ -307,7 +307,7 @@ html.intro-pending body { overflow: hidden; }
 .cardviz {
   position: relative; overflow: hidden; width: min(100%, 340px); aspect-ratio: 1.6; margin-bottom: 16px; color: #fff;
   border-radius: 10px 30px 10px 30px; background: linear-gradient(135deg, #1580cc 0%, var(--blue) 40%, var(--blue-deep) 75%, #0c2e4a 100%);
-  font-family: 'DM Mono', monospace; box-shadow: 0 18px 30px -16px rgba(12, 46, 74, .6);
+  font-family: 'DM Mono', 'Onest', monospace; box-shadow: 0 18px 30px -16px rgba(12, 46, 74, .6);
 }
 .cardviz::before { content: ''; position: absolute; left: -40%; bottom: -70%; width: 120%; height: 120%; border-radius: 50%; border: 18px solid rgba(231, 48, 42, .55); }
 .cardviz::after { content: ''; position: absolute; left: -30%; bottom: -90%; width: 120%; height: 120%; border-radius: 50%; border: 14px solid rgba(199, 197, 198, .4); }

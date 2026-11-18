@@ -182,11 +182,21 @@
 
   /* ---------- Transiciones entre páginas ---------- */
   let leaving = false;
-  function go(href) {
+  // reload=true: recarga aunque la URL solo cambie en el #hash (p. ej. al cambiar de idioma)
+  function go(href, reload) {
     if (leaving) return;
     leaving = true;
     try { sessionStorage.setItem('ph_wing', '1'); } catch (e) {}
-    PH.wing.cover(820).then(() => { window.location.href = href; });
+    let done = false;
+    const nav = () => {
+      if (done) return;
+      done = true;
+      const to = new URL(href, location.href);
+      if (reload && to.pathname === location.pathname && to.search === location.search) location.reload();
+      else window.location.href = href;
+    };
+    PH.wing.cover(820).then(nav);
+    setTimeout(nav, 1600); // red de seguridad: navega aunque la animación no termine
   }
   PH.go = go;
 
