@@ -19,10 +19,10 @@
     box.innerHTML = `
       <button type="button" class="lang__btn" aria-haspopup="true" aria-expanded="false" aria-label="${t('aria.lang')}: ${PH.LANG_NAMES[PH.lang]}">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
-        <span>${PH.lang.toUpperCase()}</span>
+        <span>${PH.langLabel(PH.lang)}</span>
       </button>
       <ul class="lang__menu" role="menu">
-        ${PH.LANGS.map((l) => `<li role="none"><button type="button" role="menuitem" lang="${l}" data-lang="${l}" ${l === PH.lang ? 'aria-current="true"' : ''}><b>${l.toUpperCase()}</b>${PH.LANG_NAMES[l]}</button></li>`).join('')}
+        ${PH.LANGS.map((l) => `<li role="none"><button type="button" role="menuitem" lang="${l}" data-lang="${l}" ${l === PH.lang ? 'aria-current="true"' : ''}><b>${PH.langLabel(l)}</b>${PH.LANG_NAMES[l]}</button></li>`).join('')}
       </ul>`;
     wrap.insertBefore(box, document.getElementById('burger'));
     const btn = box.querySelector('.lang__btn');
@@ -87,8 +87,8 @@
   PH.addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   PH.nights = (a, b) => Math.round((b - a) / 864e5);
   PH.fmtDate = (d, opts = { day: 'numeric', month: 'short' }) => d.toLocaleDateString(PH.locale, opts);
-  PH.eur = (n, dec = 0) => n.toLocaleString(PH.locale, { style: 'currency', currency: 'EUR', minimumFractionDigits: dec, maximumFractionDigits: dec });
-  const [uM, uKm] = PH.lang === 'ru' ? ['м', 'км'] : ['m', 'km'];
+  PH.eur = (n, dec = 0) => n.toLocaleString(PH.locale, { style: 'currency', currency: 'EUR', currencyDisplay: 'narrowSymbol', minimumFractionDigits: dec, maximumFractionDigits: dec });
+  const [uM, uKm] = (PH.lang === 'ru' || PH.lang === 'uk') ? ['м', 'км'] : ['m', 'km'];
   PH.fmtDist = (m) => (m < 1000 ? `${m} ${uM}` : `${(m / 1000).toLocaleString(PH.locale, { maximumFractionDigits: 1 })} ${uKm}`);
   PH.minPrice = (apts) => Math.min(...apts.map((a) => a.base));
   // "59 m² · 2 dormitorios · hasta 4"
