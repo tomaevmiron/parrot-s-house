@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pare Claret · Parrot's House Lloret de Mar</title>
+  <meta name="description" content="Parrot's House Pare Claret: diez apartamentos con parking en el centro de Lloret de Mar.">
+  <link rel="icon" type="image/png" href="assets/img/logo-original.png">
+  <meta name="theme-color" content="#c4622f">
+  <script>try { if (sessionStorage.getItem('ph_wing')) document.documentElement.classList.add('wing-pending'); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,600;1,9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/building.css">
+</head>
+<body data-b="pareclaret">
+
+<header class="header" id="header">
+  <div class="wrap">
+    <a class="brand" href="index.html" data-wing aria-label="Parrot's House, volver al inicio">
+      <img src="assets/img/logo-original.png" alt="Logo de Parrot's House" width="46" height="46">
+      <span><b>Parrot's House<sup>®</sup></b><small>Pare Claret</small></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Edificios">
+      <a href="breeze.html" data-wing>Breeze</a>
+      <a href="pescadors.html" data-wing>Pescadors</a>
+      <a href="pare-claret.html" data-wing class="is-active" aria-current="page">Pare Claret</a>
+      <a href="fenals.html" data-wing>Fenals</a>
+      <a href="index.html#alrededores" data-wing>Alrededores</a>
+    </nav>
+    <a class="btn btn--red btn--sm" href="index.html#reserva" data-wing>Reservar</a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <section class="bh" id="bh"></section>
+
+  <section class="sel-sec" id="pisos">
+    <div class="wrap">
+      <div class="sel-head">
+        <span class="plume">Elige tu piso</span>
+        <h2 class="sel-title" id="sel-title"></h2>
+        <p class="sel-sub" id="sel-sub"></p>
+      </div>
+      <div id="sel"></div>
+    </div>
+  </section>
+
+  <section class="pd-sec" id="detalle">
+    <div class="wrap pd" id="pd" aria-live="polite"></div>
+  </section>
+
+  <section class="near-sec">
+    <div class="wrap near-grid">
+      <div>
+        <span class="plume">Cerca de aquí</span>
+        <h2 class="near-title">A pie desde Pare Claret</h2>
+        <a class="near-more" href="index.html#alrededores" data-wing>Ver todos los lugares <i data-ico="arrow"></i></a>
+      </div>
+      <ol class="near" id="near"></ol>
+    </div>
+  </section>
+
+  <section class="others-sec">
+    <div class="wrap">
+      <span class="plume">Otras casas de Parrot's House</span>
+      <div class="others" id="others"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <a class="brand" href="index.html" data-wing><img src="assets/img/logo-original.png" alt="Logo de Parrot's House" width="46" height="46"><span><b>Parrot's House<sup>®</sup></b><small>Holiday apartments</small></span></a>
+        <p class="about">Apartamentos turísticos en Lloret de Mar, Costa Brava.</p>
+      </div>
+      <div>
+        <h4>Edificios</h4>
+        <ul>
+          <li><a href="breeze.html" data-wing>Aparthotel Breeze</a></li>
+          <li><a href="pescadors.html" data-wing>Aparthotel Pescadors</a></li>
+          <li><a href="pare-claret.html" data-wing>Pare Claret</a></li>
+          <li><a href="fenals.html" data-wing>Fenals</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Inicio</h4>
+        <ul>
+          <li><a href="index.html#alrededores" data-wing>Alrededores</a></li>
+          <li><a href="index.html#reserva" data-wing>Reserva y pago</a></li>
+          <li><a href="index.html#resenas" data-wing>Reseñas</a></li>
+          <li><a href="index.html#como-llegar" data-wing>Cómo llegar</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a class="contact-line" href="tel:+34628254672"><i data-ico="phone"></i> +34 628 254 672</a></li>
+          <li><a class="contact-line" href="mailto:parrotshouse.eu@gmail.com"><i data-ico="mail"></i> parrotshouse.eu@gmail.com</a></li>
+          <li><a class="contact-line" href="https://api.whatsapp.com/send?phone=34628254672" target="_blank" rel="noopener"><i data-ico="whatsapp"></i> WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© <span id="year">2026</span> Parrot's House®. Nombre y logotipo son marcas registradas.</span>
+      <span>Lloret de Mar · Costa Brava</span>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Fotos del apartamento">
+  <img alt="">
+  <span class="lb__c"></span>
+  <button type="button" class="lb__x" aria-label="Cerrar"><i data-ico="close"></i></button>
+  <button type="button" class="lb__p" aria-label="Foto anterior"><i data-ico="back"></i></button>
+  <button type="button" class="lb__n" aria-label="Foto siguiente"><i data-ico="arrow"></i></button>
+</div>
+
+<a class="wa" href="https://api.whatsapp.com/send?phone=34628254672" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><i data-ico="whatsapp"></i></a>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/wing.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/building.js"></script>
+</body>
+</html>
