@@ -50,6 +50,35 @@
   buildLangSwitch();
   PH.fillIcons();
 
+  /* ---------- ® → certificado de registro de la marca ----------
+     Cada ® junto al nombre (cabecera, pie, intro y línea legal) se convierte en enlace al PDF.
+     Algunos están dentro del enlace del logo: el clic en la ® abre solo el certificado. */
+  PH.linkTrademarks = (root = document) => {
+    root.querySelectorAll('sup').forEach((sup) => {
+      if (sup.textContent.trim() !== '®' || sup.querySelector('.tm')) return;
+      const a = document.createElement('a');
+      a.className = 'tm';
+      a.href = PH.TRADEMARK_URL;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = '®';
+      a.title = t('tm.label');
+      a.setAttribute('aria-label', t('tm.label'));
+      if (sup.closest('[aria-hidden="true"]')) a.tabIndex = -1;
+      sup.textContent = '';
+      sup.appendChild(a);
+    });
+  };
+  PH.linkTrademarks();
+  // que la ® no active el enlace del logo en el que está metida
+  document.addEventListener('click', (e) => {
+    const tm = e.target.closest('a.tm');
+    if (!tm) return;
+    e.stopPropagation();
+    e.preventDefault();
+    window.open(tm.href, '_blank', 'noopener');
+  }, true);
+
   // Cabecera: sombra al hacer scroll + menú móvil
   if (header) {
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 10);

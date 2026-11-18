@@ -55,6 +55,7 @@
     'foot.addresses': ['Direcciones', 'Addresses', 'Adresses', 'Adressen', 'Adressen', 'Адреса'],
     'foot.contact': ['Contacto', 'Contact', 'Contact', 'Kontakt', 'Contact', 'Контакты'],
     'foot.legal': ['Nombre y logotipo son marcas registradas.', 'Name and logo are registered trademarks.', 'Le nom et le logo sont des marques déposées.', 'Name und Logo sind eingetragene Marken.', 'Naam en logo zijn geregistreerde handelsmerken.', 'Название и логотип — зарегистрированные товарные знаки.'],
+    'tm.label': ['Ver el certificado de registro de la marca', 'View the trademark registration certificate', "Voir le certificat d'enregistrement de la marque", 'Markeneintragungsurkunde ansehen', 'Bekijk het merkregistratiecertificaat', 'Посмотреть свидетельство о регистрации товарного знака'],
     'b.breeze.full': ['Aparthotel Breeze', 'Aparthotel Breeze', 'Aparthotel Breeze', 'Aparthotel Breeze', 'Aparthotel Breeze', 'Апарт-отель Breeze'],
 
     /* --- intro / hero --- */
@@ -341,6 +342,7 @@
     'skip': 'Пропустити',
     'foot.about': 'Апартаменти для відпочинку в Льорет-де-Мар, Коста-Брава.', 'foot.buildings': 'Будинки', 'foot.addresses': 'Адреси', 'foot.contact': 'Контакти',
     'foot.legal': 'Назва й логотип — зареєстровані торговельні марки.', 'b.breeze.full': 'Апарт-готель Breeze',
+    'tm.label': 'Переглянути свідоцтво про реєстрацію торговельної марки',
     'hero.title': 'Ваше гніздечко на <em>Коста-Брава</em>',
     'hero.lead': '16 апартаментів у трьох районах Льорет-де-Мар: апарт-готель у грецькому стилі за кілька кроків від центрального пляжу, будинок із парковкою в самому центрі та два апартаменти з басейном у тихому районі Феналс. 45 хвилин від аеропорту Барселони та 20 — від аеропорту Жирони.',
     'hero.cta1': 'Обрати апартаменти', 'hero.cta2': 'Що поруч',

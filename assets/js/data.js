@@ -10,6 +10,9 @@ PH.CONTACT = {
   email: 'parrotshouse.eu@gmail.com',
 };
 
+/* Certificado de registro de la marca: se abre al pulsar cualquier ® junto al nombre */
+PH.TRADEMARK_URL = 'https://parrotshouse.eu/static/files/%D0%A0%D0%B0%D0%B7%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%20%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D0%B8.pdf';
+
 /* Edificios. mapGroup agrupa los que comparten ubicación en el mapa. */
 PH.BUILDINGS = {
   breeze: {
