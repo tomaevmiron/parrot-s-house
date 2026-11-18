@@ -21,15 +21,6 @@ PH.BUILDINGS = {
     perks: ['50 m de la playa central', 'Estilo griego', 'Wifi gratis', 'Cocina equipada'],
     cover: 'assets/img/apt/19/01.jpg',
   },
-  pescadors: {
-    id: 'pescadors', name: 'Pescadors', kind: 'Aparthotel',
-    page: 'pescadors.html', theme: 'pescadors',
-    tagline: 'Grises de lonja, blanco de cal y líneas limpias.',
-    address: 'Centro de Lloret de Mar',
-    lat: 41.69932, lng: 2.84826, mapGroup: 'centro-playa',
-    perks: ['Junto a la playa central', 'Interiores en gris y blanco', 'Wifi gratis', 'Cocina equipada'],
-    cover: 'assets/img/apt/16/01.jpg',
-  },
   pareclaret: {
     id: 'pareclaret', name: 'Pare Claret', kind: 'Apartamentos en el centro',
     page: 'pare-claret.html', theme: 'pareclaret',
@@ -53,22 +44,21 @@ PH.BUILDINGS = {
 /* Ubicaciones del mapa (3 puntos) */
 PH.LOCATIONS = [
   { id: 'pareclaret', title: "Parrot's House Pare Claret", buildings: ['pareclaret'], lat: 41.70285, lng: 2.8564, address: 'Carrer Pare Claret, 16, 17310 Lloret de Mar' },
-  { id: 'centro-playa', title: 'Aparthoteles Breeze & Pescadors', buildings: ['breeze', 'pescadors'], lat: 41.69932, lng: 2.84826, address: 'Carrer Emili Martínez, 8, 17310 Lloret de Mar' },
+  { id: 'centro-playa', title: "Aparthotel Breeze by Parrot's House", buildings: ['breeze'], lat: 41.69932, lng: 2.84826, address: 'Carrer Emili Martínez, 8, 17310 Lloret de Mar' },
   { id: 'fenals', title: "Parrot's House Fenals", buildings: ['fenals'], lat: 41.695985, lng: 2.829109, address: 'Av. Passapera, 1, 17310 Lloret de Mar' },
 ];
 
 /* Pisos. base = precio/noche en temporada baja (simulación). */
 PH.APTS = [
-  // Breeze
-  { id: 19, b: 'breeze', name: 'Apartamento 2 hab.', code: '2H', m2: 59, beds: 2, cap: 4, base: 70,
-    note: 'Dos dormitorios con cabeceros de ratán, salón con sofá azul y suelo hidráulico geométrico.', photos: 10 },
+  // Breeze (4 pisos)
   { id: 18, b: 'breeze', name: 'Apartamento N1', code: 'N1', m2: 39, beds: 1, cap: 2, base: 50,
     note: 'Rayas arena y azul marino, sofá de terciopelo y cocina abierta con frente de azulejo azul.', photos: 9 },
-  // Pescadors
-  { id: 17, b: 'pescadors', name: 'Apartamento N2', code: 'N2', m2: 43, beds: 1, cap: 2, base: 50,
-    note: 'Cocina negra mate, azulejo metro blanco y salón luminoso con balcón a la calle.', photos: 10 },
-  { id: 16, b: 'pescadors', name: 'Apartamento N4', code: 'N4', m2: 43, beds: 1, cap: 2, base: 50,
-    note: 'Papel pintado gris, mesa redonda y baño de líneas negras. Sobrio y muy práctico.', photos: 9 },
+  { id: 17, b: 'breeze', name: 'Apartamento N2', code: 'N2', m2: 43, beds: 1, cap: 2, base: 50,
+    note: 'Papel pintado de azulejo azul, cocina negra mate y salón luminoso con balcón a la calle.', photos: 10 },
+  { id: 16, b: 'breeze', name: 'Apartamento N4', code: 'N4', m2: 43, beds: 1, cap: 2, base: 50,
+    note: 'Mesa redonda, sofá azul y baño de azulejo metro con detalles marineros.', photos: 9 },
+  { id: 19, b: 'breeze', name: 'Apartamento 2 hab.', code: '2H', m2: 59, beds: 2, cap: 4, base: 70,
+    note: 'Dos dormitorios con cabeceros de ratán, salón con sofá azul y suelo hidráulico geométrico.', photos: 10 },
   // Pare Claret
   { id: 3, b: 'pareclaret', name: 'White Orchid', m2: 75, beds: 2, cap: 4, base: 60, swatch: '#f4efe6',
     note: 'El más amplio: dos dormitorios, salón con sofá cama y terraza con toldo.', photos: 10 },

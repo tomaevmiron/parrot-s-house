@@ -63,11 +63,10 @@
   /* =====================================================
      3 · EDIFICIOS (cada tarjeta con su mini diseño)
      ===================================================== */
-  const order = ['breeze', 'pescadors', 'pareclaret', 'fenals'];
+  const order = ['breeze', 'pareclaret', 'fenals'];
   const deco = {
     breeze: '<svg class="bc-sun" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="22"/><g>' +
       Array.from({ length: 12 }, (_, i) => `<line x1="50" y1="12" x2="50" y2="22" transform="rotate(${i * 30} 50 50)"/>`).join('') + '</g></svg>',
-    pescadors: '<span class="bc-no" aria-hidden="true">Nº</span>',
     pareclaret: '<span class="bc-blob" aria-hidden="true"></span>',
     fenals: '<svg class="bc-wave" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 Q 25 5 50 20 T 100 20 T 150 20 T 200 20 T 250 20 T 300 20 T 350 20 T 400 20 V40 H0Z"/></svg>',
   };
@@ -95,7 +94,7 @@
      ===================================================== */
   const ORIGINS = [
     { id: 'pareclaret', label: 'Pare Claret', sub: 'Centro' },
-    { id: 'centro-playa', label: 'Breeze · Pescadors', sub: 'Playa' },
+    { id: 'centro-playa', label: 'Breeze', sub: 'Playa' },
     { id: 'fenals', label: 'Fenals', sub: 'Piscina' },
   ];
   const PHOTOS = {
@@ -175,7 +174,7 @@
   const st = { b: '', guests: 2, apt: null, in: null, out: null, month: new Date(today.getFullYear(), today.getMonth(), 1), step: 1, pm: 'card' };
   const MIN_N = 2;
 
-  const BLABEL = { '': 'Todos', breeze: 'Breeze', pescadors: 'Pescadors', pareclaret: 'Pare Claret', fenals: 'Fenals' };
+  const BLABEL = { '': 'Todos', breeze: 'Breeze', pareclaret: 'Pare Claret', fenals: 'Fenals' };
   $('#bk-bfilter').innerHTML = Object.entries(BLABEL).map(([k, v]) =>
     `<button type="button" data-b="${k}" aria-pressed="${k === st.b}">${v}</button>`).join('');
 
@@ -434,7 +433,7 @@
     { n: 'Laura', f: 'Madrid', b: 'breeze', s: 5, t: 'Salimos del portal y en un minuto estábamos en la arena. El apartamento, impecable y con mucho encanto.' },
     { n: 'Marc', f: 'Girona', b: 'pareclaret', s: 5, t: 'Tener parking en pleno centro de Lloret no tiene precio. La terraza para desayunar, un lujo.' },
     { n: 'Sophie', f: 'Lyon', b: 'fenals', s: 5, t: 'Parfait avec les enfants : piscine, calme et la plage de Fenals à deux pas.' },
-    { n: 'Jan', f: 'Ámsterdam', b: 'pescadors', s: 4, t: 'Clean, modern and quiet. Great kitchen, we cooked most evenings. Very responsive host.' },
+    { n: 'Jan', f: 'Ámsterdam', b: 'breeze', s: 4, t: 'Clean, modern and quiet. Great kitchen, we cooked most evenings. Very responsive host.' },
     { n: 'Anna', f: 'Varsovia', b: 'pareclaret', s: 5, t: 'Bardzo przytulnie, wszystko czyste. Dostaliśmy łóżeczko dla dziecka bez problemu.' },
     { n: 'Jordi', f: 'Barcelona', b: 'breeze', s: 5, t: 'Estil grec, llum a tot arreu i la platja a tocar. Tornarem segur!' },
     { n: 'Tom', f: 'Mánchester', b: 'fenals', s: 4, t: 'Lovely balcony over the pine trees. A short walk to the coastal path and the beach bars.' },

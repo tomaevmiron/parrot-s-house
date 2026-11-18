@@ -158,9 +158,9 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } }
 
 /* ---------- El ala ---------- */
-.wing { position: fixed; inset: 0; z-index: 1000; pointer-events: none; visibility: hidden; }
+.wing { position: fixed; inset: 0; z-index: 1000; pointer-events: none; visibility: hidden; overflow: hidden; contain: strict; }
 .wing.is-on { visibility: visible; pointer-events: auto; }
-.wing svg { display: block; width: 100%; height: 100%; }
+.wing__f { position: absolute; left: 0; top: 0; display: block; will-change: transform; backface-visibility: hidden; pointer-events: none; }
 html.wing-pending body::after {
   content: ''; position: fixed; inset: 0; z-index: 999;
   background: linear-gradient(135deg, var(--blue) 0 45%, var(--red) 45% 70%, var(--grey) 70%);

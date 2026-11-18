@@ -2,11 +2,16 @@
    Parrot's House — el ala
    Un ala gigante de loro (plumas azul / rojo / gris, los colores
    del logo) que barre la pantalla: en la intro y al cambiar de página.
+
+   Rendimiento: cada tipo de pluma se pinta UNA sola vez en un canvas.
+   Cada pluma es su propio <canvas> (una capa de GPU) y se mueve solo
+   con transform (rotate + scale) mediante la Web Animations API.
+   Así la animación la ejecuta el compositor de la GPU: no hay repintado
+   en cada fotograma y no se bloquea aunque la página esté cargando.
    ========================================================= */
 (function () {
   const PH = (window.PH = window.PH || {});
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const NS = 'http://www.w3.org/2000/svg';
 
   const PALETTE = {
     blue: ['#0b5a95', '#0f70b7', '#3a8fd0'],
@@ -16,33 +21,69 @@
   };
   // filas: de la más larga (detrás) a la más corta (delante)
   const ROWS = [
-    { len: 1.18, w: 0.17, col: 'blue', n: 17 },
-    { len: 0.8, w: 0.2, col: 'red', n: 15 },
-    { len: 0.55, w: 0.24, col: 'grey', n: 13 },
-    { len: 0.34, w: 0.3, col: 'navy', n: 11 },
+    { len: 1.18, w: 0.17, col: 'blue', n: 13 },
+    { len: 0.8, w: 0.2, col: 'red', n: 11 },
+    { len: 0.55, w: 0.24, col: 'grey', n: 10 },
+    { len: 0.34, w: 0.3, col: 'navy', n: 8 },
   ];
+  const FROM = -125;   // ángulo extra al entrar (plumas plegadas fuera de pantalla)
+  const TO = 118;      // ángulo extra al salir
+  const EASE_OUT = 'cubic-bezier(.215,.61,.355,1)';
+  const EASE_IN = 'cubic-bezier(.55,.055,.675,.19)';
 
-  let host, svg, feathers = [], built = false;
+  let host = null, feathers = [], textures = null, running = [], built = false;
 
-  const el = (tag, attrs) => {
-    const n = document.createElementNS(NS, tag);
-    for (const k in attrs) n.setAttribute(k, attrs[k]);
-    return n;
-  };
-  const ease = {
-    out: (t) => 1 - Math.pow(1 - t, 3),
-    inOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
-    in: (t) => t * t * t,
-  };
-
+  /* ---------- texturas: una por fila, pintadas una sola vez ---------- */
   function featherPath(L, w) {
-    // pluma asimétrica: vano delantero estrecho, trasero ancho, punta redondeada
-    return `M0,0 C${L * 0.16},${-w * 0.36} ${L * 0.6},${-w * 0.42} ${L * 0.93},${-w * 0.2}
-      Q${L * 1.01},${-w * 0.12} ${L},${0}
-      C${L * 0.96},${w * 0.28} ${L * 0.6},${w * 0.6} ${L * 0.14},${w * 0.4} Z`;
+    const p = new Path2D();
+    p.moveTo(0, 0);
+    p.bezierCurveTo(L * 0.16, -w * 0.36, L * 0.6, -w * 0.42, L * 0.93, -w * 0.2);
+    p.quadraticCurveTo(L * 1.01, -w * 0.12, L, 0);
+    p.bezierCurveTo(L * 0.96, w * 0.28, L * 0.6, w * 0.6, L * 0.14, w * 0.4);
+    p.closePath();
+    return p;
+  }
+  function makeTextures() {
+    const small = Math.min(window.innerWidth, window.innerHeight) < 700;
+    const TW = small ? 520 : 820;          // resolución del dibujo (la GPU lo escala)
+    const pad = Math.round(TW * 0.03);
+    const out = {};
+    ROWS.forEach((row, r) => {
+      const w = TW * row.w;
+      const cw = Math.ceil(TW + pad * 2), ch = Math.ceil(w * 1.12 + pad * 2);
+      const ox = pad, oy = Math.round(pad + w * 0.46);   // base del cañón = punto de giro
+      const c = document.createElement('canvas');
+      c.width = cw; c.height = ch;
+      const x = c.getContext('2d');
+      x.translate(ox, oy);
+      const path = featherPath(TW, w);
+      const g = x.createLinearGradient(0, 0, TW, 0);
+      const pal = PALETTE[row.col];
+      g.addColorStop(0, pal[0]); g.addColorStop(0.55, pal[1]); g.addColorStop(1, pal[2]);
+      // sombra suave horneada en la textura (gratis en la animación)
+      x.save();
+      x.shadowColor = 'rgba(6,28,48,.28)'; x.shadowBlur = pad * 0.8; x.shadowOffsetY = pad * 0.25;
+      x.fillStyle = g; x.fill(path);
+      x.restore();
+      x.lineWidth = 1.2; x.strokeStyle = 'rgba(6,28,48,.22)'; x.stroke(path);
+      // barbas separadas
+      x.lineCap = 'round';
+      x.strokeStyle = 'rgba(255,255,255,.3)'; x.lineWidth = Math.max(1, TW * 0.0028);
+      x.beginPath();
+      x.moveTo(TW * 0.52, w * 0.03); x.lineTo(TW * 0.64, w * 0.4);
+      x.moveTo(TW * 0.74, w * 0.02); x.lineTo(TW * 0.83, w * 0.27);
+      x.moveTo(TW * 0.4, -w * 0.03); x.lineTo(TW * 0.5, -w * 0.3);
+      x.stroke();
+      // raquis (cañón)
+      x.strokeStyle = 'rgba(255,255,255,.62)'; x.lineWidth = Math.max(1.4, TW * 0.004);
+      x.beginPath(); x.moveTo(0, 0); x.quadraticCurveTo(TW * 0.5, -w * 0.07, TW * 0.985, -w * 0.015); x.stroke();
+      out[r] = { canvas: c, cw, ch, ox, oy, TW };
+    });
+    return out;
   }
 
-  function build() {
+  /* ---------- construcción de las capas ---------- */
+  function ensureHost() {
     host = document.getElementById('wing');
     if (!host) {
       host = document.createElement('div');
@@ -51,125 +92,99 @@
       host.setAttribute('aria-hidden', 'true');
       document.body.appendChild(host);
     }
-    host.innerHTML = '';
-    const W = window.innerWidth, H = window.innerHeight;
-    svg = el('svg', { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none', width: '100%', height: '100%' });
-    const defs = el('defs', {});
-    Object.entries(PALETTE).forEach(([k, c]) => {
-      const g = el('linearGradient', { id: `wg-${k}`, x1: '0', y1: '0', x2: '1', y2: '0' });
-      g.appendChild(el('stop', { offset: '0', 'stop-color': c[0] }));
-      g.appendChild(el('stop', { offset: '0.55', 'stop-color': c[1] }));
-      g.appendChild(el('stop', { offset: '1', 'stop-color': c[2] }));
-      defs.appendChild(g);
-    });
-    svg.appendChild(defs);
+  }
 
+  function build() {
+    ensureHost();
+    if (!textures) textures = makeTextures();
+    cancelAll();
+    host.textContent = '';
+    feathers = [];
+    const W = window.innerWidth, H = window.innerHeight;
     // pivote (el "hombro") fuera de pantalla, abajo a la izquierda
     const px = -0.16 * W, py = 1.14 * H;
     const far = Math.hypot(W - px, py);
-    const aTL = Math.atan2(-py, -px) * 180 / Math.PI;           // esquina sup. izq.
-    const aBR = Math.atan2(H - py, W - px) * 180 / Math.PI;      // esquina inf. der.
+    const aTL = Math.atan2(-py, -px) * 180 / Math.PI;
+    const aBR = Math.atan2(H - py, W - px) * 180 / Math.PI;
     const a0 = aTL - 14, a1 = aBR + 12;
-    const root = el('g', { transform: `translate(${px},${py})` });
-    feathers = [];
+    const frag = document.createDocumentFragment();
 
     ROWS.forEach((row, r) => {
-      const gRow = el('g', {});
-      const L = far * row.len;
-      const w = Math.min(L * row.w, 620);
-      const d = featherPath(L, w);
-      const shaft = Math.max(1.6, L * 0.0035);
+      const t = textures[r];
+      const k = (far * row.len) / t.TW;          // escala de la textura al tamaño real
       for (let i = 0; i < row.n; i++) {
-        const t = row.n === 1 ? 0 : i / (row.n - 1);
-        const jitter = (r % 2 ? 0.5 : 0) * ((a1 - a0) / row.n);
-        const a = a0 + (a1 - a0) * t + jitter * (i < row.n - 1 ? 1 : 0);
-        const g = el('g', {});
-        g.appendChild(el('path', { d, fill: `url(#wg-${row.col})`, stroke: 'rgba(6,28,48,.22)', 'stroke-width': 1.4 }));
-        // barbas separadas (pequeñas muescas)
-        g.appendChild(el('path', {
-          d: `M${L * 0.52},${w * 0.03} L${L * 0.64},${w * 0.4} M${L * 0.74},${w * 0.02} L${L * 0.83},${w * 0.27} M${L * 0.4},${-w * 0.03} L${L * 0.5},${-w * 0.3}`,
-          stroke: 'rgba(255,255,255,.28)', 'stroke-width': Math.max(1.2, shaft * 0.7), fill: 'none', 'stroke-linecap': 'round',
-        }));
-        // raquis (el cañón de la pluma)
-        g.appendChild(el('path', {
-          d: `M0,0 Q${L * 0.5},${-w * 0.07} ${L * 0.985},${-w * 0.015}`,
-          stroke: 'rgba(255,255,255,.6)', 'stroke-width': shaft, fill: 'none', 'stroke-linecap': 'round',
-        }));
-        gRow.appendChild(g);
-        feathers.push({ g, a, r, i, n: row.n });
+        const f = row.n === 1 ? 0 : i / (row.n - 1);
+        const jitter = r % 2 && i < row.n - 1 ? 0.5 * ((a1 - a0) / row.n) : 0;
+        const a = a0 + (a1 - a0) * f + jitter;
+        const c = document.createElement('canvas');
+        c.width = t.cw; c.height = t.ch;
+        c.getContext('2d').drawImage(t.canvas, 0, 0);
+        c.className = 'wing__f';
+        c.style.width = t.cw + 'px';
+        c.style.height = t.ch + 'px';
+        c.style.transformOrigin = `${t.ox}px ${t.oy}px`;
+        const base = `translate3d(${(px - t.ox).toFixed(1)}px, ${(py - t.oy).toFixed(1)}px, 0)`;
+        frag.appendChild(c);
+        feathers.push({ el: c, a, r, i, n: row.n, k, base });
       }
-      root.appendChild(gRow);
     });
-    svg.appendChild(root);
-    host.appendChild(svg);
+    host.appendChild(frag);
     built = true;
   }
 
-  function setAngle(f, deg, s = 1) {
-    f.g.setAttribute('transform', `rotate(${deg.toFixed(2)}) scale(${s.toFixed(3)})`);
-  }
+  const tf = (f, extra, s) => `${f.base} rotate(${(f.a + extra).toFixed(2)}deg) scale(${(f.k * s).toFixed(4)})`;
+  function pose(extra, s) { feathers.forEach((f) => { f.el.style.transform = tf(f, extra, s); }); }
+  function cancelAll() { running.forEach((an) => an.cancel()); running = []; }
 
   /* Anima todas las plumas. mode: 'in' (entran y cubren) | 'out' (salen y descubren) */
   function play(mode, dur = 900) {
     if (!built) build();
     host.classList.add('is-on');
-    if (reduce) {
-      feathers.forEach((f) => setAngle(f, mode === 'in' ? f.a : f.a + 140));
+    cancelAll();
+    if (reduce || !feathers[0].el.animate) {
+      pose(mode === 'in' ? 0 : TO, 1);
       if (mode === 'out') host.classList.remove('is-on');
       return Promise.resolve();
     }
-    const FROM = -125, TO = 118;
     const per = dur * 0.62;
-    return new Promise((resolve) => {
-      const start = performance.now();
-      const delayOf = (f) => {
-        const order = mode === 'in' ? f.r * 0.07 + (f.i / f.n) * 0.3 : (3 - f.r) * 0.05 + (f.i / f.n) * 0.33;
-        return order * dur;
-      };
-      function frame(now) {
-        let done = true;
-        for (const f of feathers) {
-          let t = (now - start - delayOf(f)) / per;
-          t = Math.min(1, Math.max(0, t));
-          if (t < 1) done = false;
-          if (mode === 'in') {
-            const e = ease.out(t);
-            setAngle(f, f.a + FROM * (1 - e), 0.9 + 0.1 * e);
-          } else {
-            const e = ease.in(t);
-            setAngle(f, f.a + TO * e, 1 - 0.08 * e);
-          }
-        }
-        if (!done) requestAnimationFrame(frame);
-        else {
-          if (mode === 'out') host.classList.remove('is-on');
-          resolve();
-        }
-      }
-      requestAnimationFrame(frame);
+    running = feathers.map((f) => {
+      const order = mode === 'in' ? f.r * 0.07 + (f.i / f.n) * 0.3 : (3 - f.r) * 0.05 + (f.i / f.n) * 0.33;
+      const frames = mode === 'in'
+        ? [{ transform: tf(f, FROM, 0.9) }, { transform: tf(f, 0, 1) }]
+        : [{ transform: tf(f, 0, 1) }, { transform: tf(f, TO, 0.92) }];
+      return f.el.animate(frames, { duration: per, delay: order * dur, easing: mode === 'in' ? EASE_OUT : EASE_IN, fill: 'both' });
+    });
+    return Promise.all(running.map((an) => an.finished.catch(() => {}))).then(() => {
+      // fija la pose final en el estilo y libera las animaciones
+      pose(mode === 'in' ? 0 : TO, mode === 'in' ? 1 : 0.92);
+      cancelAll();
+      if (mode === 'out') host.classList.remove('is-on');
     });
   }
 
-  /* Estado inicial: cubierto (para llegar a una página nueva) */
   function covered() {
-    build();
+    if (!built) build();
+    cancelAll();
+    pose(0, 1);
     host.classList.add('is-on');
-    feathers.forEach((f) => setAngle(f, f.a));
   }
   function hidden() {
     if (!built) build();
-    feathers.forEach((f) => setAngle(f, f.a - 125, 0.9));
+    pose(FROM, 0.9);
   }
 
   PH.wing = {
     cover: (d) => { hidden(); return play('in', d); },
     reveal: (d) => play('out', d),
     covered,
-    rebuild: () => { if (built && !host.classList.contains('is-on')) build(); },
+    prepare: () => { if (!built) build(); },
   };
 
   /* ---------- Transiciones entre páginas ---------- */
+  let leaving = false;
   function go(href) {
+    if (leaving) return;
+    leaving = true;
     try { sessionStorage.setItem('ph_wing', '1'); } catch (e) {}
     PH.wing.cover(820).then(() => { window.location.href = href; });
   }
@@ -188,17 +203,30 @@
   function arrive() {
     let pending = false;
     try { pending = sessionStorage.getItem('ph_wing') === '1'; sessionStorage.removeItem('ph_wing'); } catch (e) {}
-    if (!pending) { document.documentElement.classList.remove('wing-pending'); return; }
+    if (!pending) {
+      document.documentElement.classList.remove('wing-pending');
+      // prepara las capas cuando el navegador esté libre, para que el primer clic sea instantáneo
+      (window.requestIdleCallback || ((fn) => setTimeout(fn, 600)))(() => PH.wing.prepare());
+      return;
+    }
     covered();
     document.documentElement.classList.remove('wing-pending');
-    setTimeout(() => PH.wing.reveal(1000), 120);
+    // espera dos fotogramas (pintado del estado cubierto) y deja que la página respire antes de destapar
+    requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(() => PH.wing.reveal(1000), 160)));
   }
 
   window.addEventListener('pageshow', (e) => {
-    if (e.persisted && host) { host.classList.remove('is-on'); document.documentElement.classList.remove('wing-pending'); }
+    if (e.persisted) {
+      leaving = false;
+      if (host) { cancelAll(); host.classList.remove('is-on'); }
+      document.documentElement.classList.remove('wing-pending');
+    }
   });
   let rt;
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => PH.wing.rebuild(), 200); });
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { if (built && !host.classList.contains('is-on')) build(); }, 250);
+  });
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arrive);
   else arrive();

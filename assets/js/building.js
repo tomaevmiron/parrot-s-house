@@ -9,26 +9,22 @@
 
   const ABOUT = {
     breeze: 'Un pequeño aparthotel a un paseo de la playa central de Lloret. Paredes encaladas, azul Egeo, ratán y suelo hidráulico: el Mediterráneo griego trasladado a la Costa Brava. Pisos luminosos para parejas y familias pequeñas.',
-    pescadors: 'Líneas limpias en gris y blanco, cocinas negro mate y azulejo metro. Pescadors es el más sobrio de nuestros aparthoteles: práctico, silencioso y a pocos minutos de la arena.',
     pareclaret: 'Nuestro edificio más grande: diez apartamentos con nombre de flor en pleno centro de Lloret, con parking subterráneo. Madera, tonos tierra y terrazas soleadas para desayunar sin prisa.',
     fenals: 'Dos apartamentos LUX en una urbanización tranquila de Fenals, con piscina comunitaria, jardín y parking subterráneo. La playa de Fenals y el camino de ronda, a un paseo. Ideal para familias.',
   };
   const AMEN = {
     common: [['wifi', 'Wifi gratis'], ['kitchen', 'Cocina equipada'], ['tv', 'Smart TV'], ['towel', 'Ropa de cama y toallas'], ['crib', 'Cuna gratis bajo petición'], ['nosmoke', 'Sin humo']],
     breeze: [['beach', 'Playa central a un paseo']],
-    pescadors: [['beach', 'Playa central a un paseo']],
     pareclaret: [['parking', 'Parking subterráneo'], ['beach', 'Terraza']],
     fenals: [['pool', 'Piscina comunitaria'], ['parking', 'Parking subterráneo'], ['family', 'Ideal familias']],
   };
   const HERO_IMGS = {
-    breeze: [PH.photo(apts[0], 1), PH.photo(apts[1], 1, true), PH.photo(apts[0], 3, true)],
-    pescadors: [PH.photo(apts[0], 1), PH.photo(apts[1], 1, true), PH.photo(apts[0], 2, true)],
+    breeze: [PH.photo(PH.aptById(19), 1), PH.photo(PH.aptById(17), 1, true), PH.photo(PH.aptById(18), 1, true)],
     pareclaret: [PH.photo(PH.aptById(2), 1), PH.photo(PH.aptById(4), 1, true), PH.photo(PH.aptById(3), 8, true)],
     fenals: [PH.photo(PH.aptById(15), 4), PH.photo(PH.aptById(11), 1, true), PH.photo(PH.aptById(15), 6, true)],
   };
   const SEL_TITLE = {
     breeze: ['La fachada', 'Toca una ventana para ver el piso.'],
-    pescadors: ['El registro', 'Cada piso, su número. Elige uno.'],
     pareclaret: ['El jardín', 'Diez pisos, diez flores. ¿Cuál es la tuya?'],
     fenals: ['Las calles de la piscina', 'Dos pisos gemelos, junto al agua.'],
   };
@@ -63,7 +59,7 @@
     const isB = bid === 'breeze';
     const W = 360, top = 70, fh = 72;
     // [planta desde arriba, columna] para cada piso (en el orden de PH.APTS)
-    const slots = isB ? [[1, 0], [3, 1]] : [[2, 0], [0, 1]];
+    const slots = [[3, 0], [2, 1], [0, 0], [1, 1]]; // N1, N2, N4, 2H
     let s = `<svg viewBox="0 0 ${W} 430" class="facade" role="group" aria-label="Fachada del edificio ${B.name}">`;
     if (isB) {
       s += `<circle cx="96" cy="70" r="40" class="f-dome"/><rect x="50" y="68" width="92" height="10" class="f-wall"/>
@@ -109,7 +105,7 @@
   function listHTML() {
     return `<div class="plist">${apts.map((a, i) => `
       <button type="button" class="pitem" data-id="${a.id}">
-        <span class="pitem__no">${bid === 'pescadors' ? 'Nº ' + a.code.replace('N', '') : a.code}</span>
+        <span class="pitem__no">${a.code}</span>
         <span class="pitem__n">${a.name}</span>
         <span class="pitem__m">${a.m2} m² · ${a.beds} hab. · hasta ${a.cap}</span>
         <span class="pitem__p">desde ${PH.eur(a.base)}</span>
@@ -137,7 +133,7 @@
   }
 
   const sel = $('#sel');
-  if (bid === 'breeze' || bid === 'pescadors') sel.innerHTML = `<div class="sel-facade">${facadeSVG()}${listHTML()}</div>`;
+  if (bid === 'breeze') sel.innerHTML = `<div class="sel-facade">${facadeSVG()}${listHTML()}</div>`;
   else if (bid === 'pareclaret') sel.innerHTML = gardenHTML();
   else sel.innerHTML = lanesHTML();
 
