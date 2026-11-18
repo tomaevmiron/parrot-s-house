@@ -1,15 +1,17 @@
 /* =========================================================
-   Parrot's House — idiomas: es · en · fr · de · nl · ru · uk
+   Parrot's House — idiomas: es · en · fr · it · pt · de · nl · ru · uk
    Cada entrada: [es, en, fr, de, nl, ru]. Plurales con "|":
    "singular|plural" (ru: "1|2-4|5+"). Variables: {n}, {name}…
    ========================================================= */
 (function () {
   const PH = (window.PH = window.PH || {});
-  const LANGS = ['es', 'en', 'fr', 'de', 'nl', 'ru', 'uk'];
+  // COLS = orden de las columnas del diccionario · LANGS = orden en el menú
+  const COLS = ['es', 'en', 'fr', 'de', 'nl', 'ru', 'uk', 'it', 'pt'];
+  const LANGS = ['es', 'en', 'fr', 'it', 'pt', 'de', 'nl', 'ru', 'uk'];
   PH.LANGS = LANGS;
-  PH.LANG_NAMES = { es: 'Español', en: 'English', fr: 'Français', de: 'Deutsch', nl: 'Nederlands', ru: 'Русский', uk: 'Українська' };
+  PH.LANG_NAMES = { es: 'Español', en: 'English', fr: 'Français', de: 'Deutsch', nl: 'Nederlands', ru: 'Русский', uk: 'Українська', it: 'Italiano', pt: 'Português' };
   PH.langLabel = (l) => (l === 'uk' ? 'UA' : l.toUpperCase());
-  const LOCALES = { es: 'es-ES', en: 'en-GB', fr: 'fr-FR', de: 'de-DE', nl: 'nl-NL', ru: 'ru-RU', uk: 'uk-UA' };
+  const LOCALES = { es: 'es-ES', en: 'en-GB', fr: 'fr-FR', de: 'de-DE', nl: 'nl-NL', ru: 'ru-RU', uk: 'uk-UA', it: 'it-IT', pt: 'pt-PT' };
 
   /* ---------- idioma activo: ?lang= > elegido antes > navegador > es ---------- */
   function detect() {
@@ -23,7 +25,7 @@
     return nav.find((l) => LANGS.includes(l)) || 'es';
   }
   const lang = detect();
-  const L = LANGS.indexOf(lang);
+  const L = COLS.indexOf(lang);
   PH.lang = lang;
   PH.locale = LOCALES[lang];
   document.documentElement.lang = lang;
@@ -468,10 +470,292 @@
     'Аквапарк із гірками для всієї родини.',
     'Автобуси до Барселони, Жирони та аеропортів.',
   ];
-  const UKI = LANGS.indexOf('uk');
+  const UKI = COLS.indexOf('uk');
   Object.entries(UK).forEach(([k, v]) => { if (D[k]) D[k][UKI] = v; });
   Object.entries(UK_NOTES).forEach(([id, v]) => { if (APT_NOTES[id]) APT_NOTES[id][UKI] = v; });
   UK_PLACES.forEach((v, i) => { if (PLACE_D[i]) PLACE_D[i][UKI] = v; });
+
+  /* ---------- Italiano (it) ---------- */
+  const IT = {
+    'meta.title': "Parrot's House · Appartamenti a Lloret de Mar",
+    'meta.desc': "Parrot's House: 16 appartamenti per vacanze a Lloret de Mar, Costa Brava. L'aparthotel Breeze vicino alla spiaggia, Pare Claret in centro con parcheggio e Fenals con piscina.",
+    'nav.home': 'Home', 'nav.apts': 'Appartamenti', 'nav.around': 'Dintorni', 'nav.book': 'Prenota', 'nav.reviews': 'Recensioni', 'nav.reach': 'Come arrivare',
+    'cta.bookNow': 'Prenota ora', 'cta.book': 'Prenota',
+    'aria.menu': 'Apri il menu', 'aria.wa': 'Scrivici su WhatsApp', 'aria.lang': 'Lingua',
+    'aria.home': "Parrot's House, home", 'aria.backHome': "Parrot's House, torna alla home", 'alt.logo': "Logo di Parrot's House",
+    'skip': 'Salta', 'tm.label': 'Vedi il certificato di registrazione del marchio',
+    'foot.about': 'Appartamenti per vacanze a Lloret de Mar, Costa Brava.', 'foot.buildings': 'Strutture', 'foot.addresses': 'Indirizzi', 'foot.contact': 'Contatti',
+    'foot.legal': 'Il nome e il logo sono marchi registrati.', 'b.breeze.full': 'Aparthotel Breeze',
+    'hero.title': 'Il tuo nido sulla <em>Costa&nbsp;Brava</em>',
+    'hero.lead': "16 appartamenti in tre zone di Lloret de Mar: un aparthotel in stile greco a due passi dalla spiaggia principale, un edificio con parcheggio in pieno centro e due appartamenti con piscina nella tranquilla Fenals. A 45 minuti dall'aeroporto di Barcellona e a 20 da quello di Girona.",
+    'hero.cta1': 'Scegli un appartamento', 'hero.cta2': "Cosa c'è vicino",
+    'fact.apts': 'appartamenti', 'fact.locs': 'sedi', 'fact.beach': 'dalla spiaggia principale', 'fact.care': 'assistenza agli ospiti',
+    'alt.heroMain': 'Vista aerea della baia di Lloret de Mar', 'alt.heroSmall': "Soggiorno di un appartamento dell'aparthotel Breeze",
+    'q.building': 'Struttura', 'q.any': 'Qualsiasi', 'q.opt.breeze': 'Breeze · spiaggia', 'q.opt.pareclaret': 'Pare Claret · centro', 'q.opt.fenals': 'Fenals · piscina',
+    'q.in': 'Arrivo', 'q.out': 'Partenza', 'q.guests': 'Ospiti', 'q.go': 'Verifica disponibilità',
+    'perks.title': 'Servizi inclusi', 'perk.beach': 'Spiaggia a due passi', 'perk.parking': 'Parcheggio gratuito', 'perk.wifi': 'Wi-Fi gratuito',
+    'perk.family': 'Ideale per famiglie', 'perk.transfer': 'Transfer aeroporto', 'perk.247': 'Assistenza 24/7',
+    'perk.crib': 'Culla e poltrona per allattamento gratuite', 'perk.linen': 'Biancheria da letto e asciugamani', 'perk.nosmoke': 'Appartamenti per non fumatori',
+    'sec.apts.title': 'Scegli dove posarti',
+    'sec.apts.lead': 'Tre case, tre caratteri. Ogni struttura ha il suo stile: entra in quella che preferisci e scegli lì il tuo appartamento.',
+    'card.see': 'Vedi appartamenti',
+    'u.flats': 'appartamento|appartamenti', 'u.nights': 'notte|notti', 'u.bedrooms': 'camera|camere',
+    'u.from': 'da', 'u.perNight': '/notte', 'u.upTo': 'fino a {n}', 'u.upToGuests': 'fino a {n} ospiti', 'u.min': 'min', 'u.onFoot': '{d} a piedi',
+    'apt.word': 'Appartamento', 'apt.2bed': 'Appartamento con 2 camere',
+    'sec.around.title': 'Lloret a volo di pappagallo',
+    'sec.around.lead': 'Spiagge, monumenti, ristoranti e attività, con la distanza a piedi dal tuo appartamento. Scegli da dove parti.',
+    'aria.origin': 'Parto da', 'aria.cats': 'Filtra per tipo',
+    'origin.centro': 'Centro', 'origin.playa': 'Spiaggia', 'origin.piscina': 'Piscina',
+    'key.beach': 'Spiaggia più vicina', 'key.church': 'Chiesa di Sant Romà', 'key.bus': 'Stazione degli autobus',
+    'cat.all': 'Tutto', 'cat.playa': 'Spiagge', 'cat.monumento': 'Monumenti', 'cat.restaurante': 'Ristoranti', 'cat.bar': 'Bar e svago', 'cat.actividad': 'Attività',
+    'cat1.playa': 'Spiaggia', 'cat1.monumento': 'Monumento', 'cat1.restaurante': 'Ristorante', 'cat1.bar': 'Svago', 'cat1.actividad': 'Attività',
+    'around.fine': "Distanze a piedi approssimative, calcolate dall'indirizzo di ogni struttura.",
+    'cap.all': "La spiaggia di Lloret e il Castell d'en Plaja", 'cap.playa': 'Sabbia e acqua limpida nella baia di Lloret', 'cap.monumento': "Il Castell d'en Plaja sul mare",
+    'cap.restaurante': 'Risotti e paella in riva al mare', 'cap.bar': 'Tapas e cocktail in terrazza', 'cap.actividad': 'Il sentiero costiero tra le calette',
+    'tips.title': 'Il consiglio della casa',
+    'tips.text': 'Percorri al tramonto il sentiero costiero da Sa Caleta a Fenals: calette, pini e la Dona Marinera che guarda il mare.',
+    'sec.book.plume': 'Prenotazione e pagamento', 'sec.book.title': 'Prenota il tuo nido',
+    'sec.book.lead': 'Tre passi e hai finito. Prezzo finale senza sorprese: vedi il dettaglio prima di pagare.',
+    'step1': 'Appartamento', 'step2': 'Date', 'step3': 'Dati e pagamento', 'bk.all': 'Tutti',
+    'aria.lessGuests': 'Meno ospiti', 'aria.moreGuests': 'Più ospiti',
+    'av.ok': 'Libero nelle tue date', 'av.no': 'Occupato nelle tue date', 'av.max': 'Max. {n} ospiti',
+    'aria.prevMonth': 'Mese precedente', 'aria.nextMonth': 'Mese successivo',
+    'cal.pickIn': 'Scegli la data di arrivo', 'cal.pickOut': 'Arrivo il {d} · ora scegli la partenza (min. {n} notti)',
+    'cal.min': 'Il soggiorno minimo è di {n} notti', 'cal.busy': 'occupato',
+    'leg.free': 'Libero', 'leg.busy': 'Occupato', 'leg.sel': 'Il tuo soggiorno',
+    'bk.change': 'Cambia appartamento', 'bk.continue': 'Continua',
+    'f.data': 'I tuoi dati', 'f.name': 'Nome e cognome', 'f.email': 'Email', 'f.tel': 'Telefono', 'f.eta': 'Orario di arrivo previsto',
+    'f.after22': 'Dopo le 22:00', 'f.notes': 'Richieste (facoltativo)', 'f.notesPh': "Culla, seggiolone, transfer dall'aeroporto…",
+    'f.pay': 'Metodo di pagamento', 'pm.card': 'Carta', 'pm.arrival': "Paga all'arrivo", 'cv.name': 'IL TUO NOME', 'cv.exp': 'MM/AA',
+    'f.cc': 'Numero della carta', 'f.exp': 'Scadenza',
+    'pm.bizumText': 'Alla conferma invieremo una richiesta di pagamento Bizum al telefono indicato.',
+    'pm.arrivalText': "Paghi l'intero importo all'arrivo, in contanti o con carta. Teniamo la tua prenotazione per 48 ore senza costi.",
+    'f.terms': 'Accetto le condizioni di prenotazione e la politica di cancellazione.', 'f.sim': 'Pagamento simulato: non viene effettuato alcun addebito reale.',
+    'bk.payBtn': 'Conferma e paga', 'bk.confirmBtn': 'Conferma la prenotazione', 'bk.processing': 'Elaborazione…',
+    'done.title': 'Prenotazione confermata!', 'done.code': 'Codice di prenotazione', 'done.sent': 'Abbiamo inviato i dettagli a',
+    'done.fine': '(Simulazione: nessuna email inviata e nessun addebito effettuato.)', 'done.again': "Fai un'altra prenotazione",
+    'sum.empty': 'Scegli un appartamento per vedere qui il riepilogo e il prezzo.', 'sum.cleaning': 'Pulizia finale', 'sum.tax': 'Tassa di soggiorno',
+    'sum.total': 'Totale', 'sum.payNothing': 'Oggi non paghi nulla.', 'sum.cancel': 'Cancellazione gratuita fino a 7 giorni prima.',
+    'sum.pickDates': 'Scegli le date nel calendario per calcolare il prezzo. Da {p}/notte in bassa stagione.',
+    'sec.rev.title': 'Cosa raccontano gli ospiti che si sono già posati qui',
+    'rev.fine': 'Recensioni di esempio per il design: verranno sostituite dalle recensioni reali degli ospiti.',
+    'aria.prev': 'Precedente', 'aria.next': 'Successivo', 'rev.of5': '{n} su 5',
+    'sec.reach.title': 'Tre indirizzi a Lloret', 'aria.map': 'Mappa con le tre sedi', 'loc.route': 'Percorso su Google Maps',
+    'tr.bcn.t': 'Aeroporto di Barcellona', 'tr.bcn.d': 'In auto 45 min tramite AP-7 / C-32. Offriamo il transfer: richiedilo al momento della prenotazione.',
+    'tr.gro.t': 'Aeroporto di Girona', 'tr.gro.d': 'Circa 20–30 min in auto o in autobus diretto fino a Lloret.',
+    'tr.bus.t': 'In autobus', 'tr.bus.d': 'Linee dirette da Barcellona e Girona fino alla stazione degli autobus di Lloret.',
+    'tr.train.t': 'In treno', 'tr.train.d': 'Rodalies R1 fino a Blanes, poi autobus o taxi fino a Lloret (circa 15 min).',
+    'b.breeze.kind': 'Aparthotel sul mare', 'b.breeze.tagline': 'Bianco, blu Egeo e la spiaggia principale a pochi passi.',
+    'b.breeze.perks': 'A 50 m dalla spiaggia principale|Stile greco|Wi-Fi gratuito|Cucina attrezzata',
+    'b.pareclaret.kind': 'Appartamenti in centro', 'b.pareclaret.tagline': 'Legno, terracotta e terrazze al sole in pieno centro.',
+    'b.pareclaret.perks': 'Parcheggio sotterraneo|Terrazze|Centro di Lloret|Wi-Fi gratuito',
+    'b.fenals.kind': 'Appartamenti con piscina', 'b.fenals.tagline': 'Piscina, pini e tranquillità. Pensato per le famiglie.',
+    'b.fenals.perks': 'Piscina condominiale|Parcheggio sotterraneo|Zona tranquilla|Ideale per famiglie',
+    'about.breeze': 'Un piccolo aparthotel a pochi passi dalla spiaggia principale di Lloret. Pareti imbiancate a calce, blu Egeo, rattan e cementine: il Mediterraneo greco portato in Costa Brava. Appartamenti luminosi per coppie e piccole famiglie.',
+    'about.pareclaret': 'La nostra struttura più grande: dieci appartamenti con nomi di fiori in pieno centro di Lloret, con parcheggio sotterraneo. Legno, toni della terra e terrazze soleggiate per colazioni senza fretta.',
+    'about.fenals': 'Due appartamenti LUX in un complesso residenziale tranquillo a Fenals, con piscina condominiale, giardino e parcheggio sotterraneo. La spiaggia di Fenals e il sentiero costiero sono a pochi passi. Ideale per le famiglie.',
+    'bh.back': 'Tutte le strutture', 'bh.choose': "Scegli l'appartamento", 'sel.plume': 'Scegli il tuo appartamento',
+    'sel.breeze.t': 'La facciata', 'sel.breeze.s': "Tocca una finestra per vedere l'appartamento.",
+    'sel.pareclaret.t': 'Il giardino', 'sel.pareclaret.s': 'Dieci appartamenti, dieci fiori. Qual è il tuo?',
+    'sel.fenals.t': 'Le corsie della piscina', 'sel.fenals.s': "Due appartamenti gemelli, vicino all'acqua.",
+    'am.kitchen': 'Cucina attrezzata', 'am.tv': 'Smart TV', 'am.crib': 'Culla gratuita su richiesta', 'am.nosmoke': 'Non fumatori',
+    'am.beach': 'Spiaggia principale a pochi passi', 'am.parking': 'Parcheggio sotterraneo', 'am.terrace': 'Terrazza', 'am.pool': 'Piscina condominiale',
+    'spec.size': 'Superficie', 'spec.beds': 'Camere',
+    'season.low': 'Bassa stagione', 'season.mid': 'Media stagione', 'season.high': 'Alta stagione', 'price.note': 'prezzo indicativo a notte',
+    'pd.book': 'Prenota {name}', 'pd.ask': 'Chiedi', 'pd.wa': "Ciao, mi interessa l'appartamento {a} di {b}.",
+    'pd.compare': 'Confrontare?', 'pd.see': 'Vedi {name}', 'pd.zoom': 'Ingrandisci la foto', 'pd.photo': 'Foto {n}',
+    'near.plume': 'Nei dintorni', 'near.title': 'A piedi da {b}', 'near.more': 'Vedi tutti i luoghi', 'others.plume': "Le altre case di Parrot's House",
+    'aria.close': 'Chiudi', 'aria.prevPhoto': 'Foto precedente', 'aria.nextPhoto': 'Foto successiva', 'aria.facade': 'Facciata della struttura {b}',
+  };
+  const IT_NOTES = {
+    19: 'Due camere con testiere in rattan, soggiorno con divano blu e cementine geometriche.',
+    18: 'Righe color sabbia e blu navy, divano in velluto e cucina a vista con piastrelle blu.',
+    17: 'Carta da parati a motivo di piastrelle blu, cucina nero opaco e soggiorno luminoso con balcone sulla strada.',
+    16: 'Tavolo rotondo, divano blu e bagno con piastrelle metro e dettagli marinari.',
+    3: 'Il più spazioso: due camere, soggiorno con divano letto e terrazza con tenda da sole.',
+    4: 'Grande terrazza arancione con divano da esterno e camera in legno massello.',
+    7: 'Caldo e luminoso, con divano letto per una terza persona.',
+    8: 'Toni vinaccia e legno, terrazza e divano letto per una terza persona.',
+    2: 'Terrazza in alto con vista sui tetti di Lloret.',
+    5: 'Ispirato a un campo di papaveri; divano letto e terrazza.',
+    6: 'Turchesi tenui, tavolo in vetro e lungo balcone.',
+    10: 'Sereno e curato, con cucina a vista e terrazza.',
+    1: 'Soggiorno allungato con divano color cuoio e terrazza arancione.',
+    9: 'Sedie colorate, divano rosso e terrazza con tavolino in vimini.',
+    11: 'Soggiorno grigio con chaise longue, cucina a vista e terrazza con vista sui pini.',
+    15: 'Divano rosso, zona pranzo in stile nordico e grande balcone sul giardino e sulla piscina.',
+  };
+  const IT_PLACES = [
+    'La spiaggia principale: sabbia grossa, lungomare e chioschi.',
+    'Piccola caletta accanto al castello, con le barche dei pescatori.',
+    'Scogli, acqua trasparente e ottimo snorkeling lungo il sentiero costiero.',
+    'Spiaggia ampia e tranquilla, perfetta con i bambini.',
+    "Sabbia dorata circondata da pini, accanto all'eremo.",
+    'Chiesa gotica (1522) con cupole moderniste in ceramica.',
+    'La statua di bronzo che guarda il mare dal belvedere.',
+    "Il castello neomedievale che corona l'estremità della spiaggia.",
+    'La storia marinara di Lloret in una casa di «indiano» sul lungomare.',
+    'Giardini noucentisti a terrazze sopra la scogliera.',
+    'Santuario del XVIII secolo e scenario della processione in mare di luglio.',
+    'Tapas, pasta e pizza in una piazza vivace del centro.',
+    'Cucina italiana sul mare con oltre 20 anni di storia.',
+    "Cucina mediterranea con vista, accanto al Castell d'en Plaja.",
+    'Paella e piatti di riso a Fenals.',
+    'Riso e pesce a pochi passi dalla sabbia.',
+    'Cucina mediterranea nella zona di Fenals.',
+    'Terrazza per le tapas in centro.',
+    'Hamburger e street food in pieno centro.',
+    'Chiosco sulla sabbia di Fenals.',
+    'Gioco, cene e spettacoli in fondo al lungomare.',
+    'Sentiero costiero tra le calette, ideale al tramonto.',
+    'Parco acquatico con scivoli per tutta la famiglia.',
+    'Autobus per Barcellona, Girona e gli aeroporti.',
+  ];
+
+  /* ---------- Português europeu (pt) ---------- */
+  const PT = {
+    'meta.title': "Parrot's House · Apartamentos em Lloret de Mar",
+    'meta.desc': "Parrot's House: 16 apartamentos de férias em Lloret de Mar, Costa Brava. O aparthotel Breeze junto à praia, Pare Claret no centro com estacionamento e Fenals com piscina.",
+    'nav.home': 'Início', 'nav.apts': 'Apartamentos', 'nav.around': 'Arredores', 'nav.book': 'Reservar', 'nav.reviews': 'Avaliações', 'nav.reach': 'Como chegar',
+    'cta.bookNow': 'Reservar agora', 'cta.book': 'Reservar',
+    'aria.menu': 'Abrir menu', 'aria.wa': 'Escreva-nos pelo WhatsApp', 'aria.lang': 'Idioma',
+    'aria.home': "Parrot's House, início", 'aria.backHome': "Parrot's House, voltar ao início", 'alt.logo': "Logótipo da Parrot's House",
+    'skip': 'Saltar', 'tm.label': 'Ver o certificado de registo da marca',
+    'foot.about': 'Apartamentos de férias em Lloret de Mar, Costa Brava.', 'foot.buildings': 'Edifícios', 'foot.addresses': 'Moradas', 'foot.contact': 'Contacto',
+    'foot.legal': 'O nome e o logótipo são marcas registadas.', 'b.breeze.full': 'Aparthotel Breeze',
+    'hero.title': 'O seu ninho na <em>Costa&nbsp;Brava</em>',
+    'hero.lead': '16 apartamentos em três zonas de Lloret de Mar: um aparthotel de estilo grego a poucos passos da praia principal, um edifício com estacionamento em pleno centro e dois apartamentos com piscina na tranquila Fenals. A 45 minutos do aeroporto de Barcelona e a 20 do de Girona.',
+    'hero.cta1': 'Escolher apartamento', 'hero.cta2': 'O que há perto',
+    'fact.apts': 'apartamentos', 'fact.locs': 'localizações', 'fact.beach': 'da praia principal', 'fact.care': 'apoio ao hóspede',
+    'alt.heroMain': 'Vista aérea da baía de Lloret de Mar', 'alt.heroSmall': 'Sala de um apartamento do aparthotel Breeze',
+    'q.building': 'Edifício', 'q.any': 'Qualquer', 'q.opt.breeze': 'Breeze · praia', 'q.opt.pareclaret': 'Pare Claret · centro', 'q.opt.fenals': 'Fenals · piscina',
+    'q.in': 'Chegada', 'q.out': 'Partida', 'q.guests': 'Hóspedes', 'q.go': 'Ver disponibilidade',
+    'perks.title': 'Serviços incluídos', 'perk.beach': 'Praia a poucos passos', 'perk.parking': 'Estacionamento gratuito', 'perk.wifi': 'Wi-Fi gratuito',
+    'perk.family': 'Ideal para famílias', 'perk.transfer': 'Transfer do aeroporto', 'perk.247': 'Apoio 24/7',
+    'perk.crib': 'Berço e cadeira de amamentação gratuitos', 'perk.linen': 'Roupa de cama e toalhas', 'perk.nosmoke': 'Apartamentos para não fumadores',
+    'sec.apts.title': 'Escolha onde pousar',
+    'sec.apts.lead': 'Três casas, três personalidades. Cada edifício tem o seu estilo: entre no que mais gostar e escolha lá dentro o seu apartamento.',
+    'card.see': 'Ver apartamentos',
+    'u.flats': 'apartamento|apartamentos', 'u.nights': 'noite|noites', 'u.bedrooms': 'quarto|quartos',
+    'u.from': 'desde', 'u.perNight': '/noite', 'u.upTo': 'até {n}', 'u.upToGuests': 'até {n} hóspedes', 'u.min': 'min', 'u.onFoot': '{d} a pé',
+    'apt.word': 'Apartamento', 'apt.2bed': 'Apartamento com 2 quartos',
+    'sec.around.title': 'Lloret em voo de papagaio',
+    'sec.around.lead': 'Praias, monumentos, restaurantes e programas, com a distância a pé desde o seu apartamento. Escolha de onde parte.',
+    'aria.origin': 'Parto de', 'aria.cats': 'Filtrar por tipo',
+    'origin.centro': 'Centro', 'origin.playa': 'Praia', 'origin.piscina': 'Piscina',
+    'key.beach': 'Praia mais próxima', 'key.church': 'Igreja de Sant Romà', 'key.bus': 'Estação de autocarros',
+    'cat.all': 'Tudo', 'cat.playa': 'Praias', 'cat.monumento': 'Monumentos', 'cat.restaurante': 'Restaurantes', 'cat.bar': 'Bares e lazer', 'cat.actividad': 'Atividades',
+    'cat1.playa': 'Praia', 'cat1.monumento': 'Monumento', 'cat1.restaurante': 'Restaurante', 'cat1.bar': 'Lazer', 'cat1.actividad': 'Atividade',
+    'around.fine': 'Distâncias aproximadas a pé, calculadas a partir da morada de cada edifício.',
+    'cap.all': "A praia de Lloret e o Castell d'en Plaja", 'cap.playa': 'Areia e água límpida na baía de Lloret', 'cap.monumento': "O Castell d'en Plaja sobre o mar",
+    'cap.restaurante': 'Arrozes e paelhas junto ao mar', 'cap.bar': 'Tapas e cocktails na esplanada', 'cap.actividad': 'O caminho costeiro entre enseadas',
+    'tips.title': 'Dica da casa',
+    'tips.text': 'Percorra ao pôr do sol o caminho costeiro de Sa Caleta até Fenals: enseadas, pinheiros e a Dona Marinera a olhar para o mar.',
+    'sec.book.plume': 'Reserva e pagamento', 'sec.book.title': 'Reserve o seu ninho',
+    'sec.book.lead': 'Três passos e está feito. Preço final sem surpresas: vê o detalhe antes de pagar.',
+    'step1': 'Apartamento', 'step2': 'Datas', 'step3': 'Dados e pagamento', 'bk.all': 'Todos',
+    'aria.lessGuests': 'Menos hóspedes', 'aria.moreGuests': 'Mais hóspedes',
+    'av.ok': 'Livre nas suas datas', 'av.no': 'Ocupado nas suas datas', 'av.max': 'Máx. {n} hóspedes',
+    'aria.prevMonth': 'Mês anterior', 'aria.nextMonth': 'Mês seguinte',
+    'cal.pickIn': 'Escolha a data de chegada', 'cal.pickOut': 'Chegada a {d} · agora escolha a partida (mín. {n} noites)',
+    'cal.min': 'A estadia mínima é de {n} noites', 'cal.busy': 'ocupado',
+    'leg.free': 'Livre', 'leg.busy': 'Ocupado', 'leg.sel': 'A sua estadia',
+    'bk.change': 'Mudar de apartamento', 'bk.continue': 'Continuar',
+    'f.data': 'Os seus dados', 'f.name': 'Nome completo', 'f.email': 'Email', 'f.tel': 'Telefone', 'f.eta': 'Hora prevista de chegada',
+    'f.after22': 'Depois das 22:00', 'f.notes': 'Pedidos (opcional)', 'f.notesPh': 'Berço, cadeira de bebé, transfer do aeroporto…',
+    'f.pay': 'Forma de pagamento', 'pm.card': 'Cartão', 'pm.arrival': 'Pagar à chegada', 'cv.name': 'O SEU NOME', 'cv.exp': 'MM/AA',
+    'f.cc': 'Número do cartão', 'f.exp': 'Validade',
+    'pm.bizumText': 'Ao confirmar, enviaremos um pedido de pagamento Bizum para o telefone indicado.',
+    'pm.arrivalText': 'Paga o total à chegada, em numerário ou com cartão. Guardamos a sua reserva 48 h sem custos.',
+    'f.terms': 'Aceito as condições de reserva e a política de cancelamento.', 'f.sim': 'Pagamento simulado: não é feita nenhuma cobrança real.',
+    'bk.payBtn': 'Confirmar e pagar', 'bk.confirmBtn': 'Confirmar reserva', 'bk.processing': 'A processar…',
+    'done.title': 'Reserva confirmada!', 'done.code': 'Código de reserva', 'done.sent': 'Enviámos os detalhes para',
+    'done.fine': '(Simulação: não foi enviado nenhum email nem feita nenhuma cobrança.)', 'done.again': 'Fazer outra reserva',
+    'sum.empty': 'Escolha um apartamento para ver aqui o resumo e o preço.', 'sum.cleaning': 'Limpeza final', 'sum.tax': 'Taxa turística',
+    'sum.total': 'Total', 'sum.payNothing': 'Hoje não paga nada.', 'sum.cancel': 'Cancelamento gratuito até 7 dias antes.',
+    'sum.pickDates': 'Escolha as datas no calendário para calcular o preço. Desde {p}/noite na época baixa.',
+    'sec.rev.title': 'O que contam os hóspedes que já pousaram aqui',
+    'rev.fine': 'Avaliações de exemplo para o design: serão substituídas pelas opiniões reais dos hóspedes.',
+    'aria.prev': 'Anterior', 'aria.next': 'Seguinte', 'rev.of5': '{n} de 5',
+    'sec.reach.title': 'Três moradas em Lloret', 'aria.map': 'Mapa com as três localizações', 'loc.route': 'Rota no Google Maps',
+    'tr.bcn.t': 'Aeroporto de Barcelona', 'tr.bcn.d': '45 min de carro pela AP-7 / C-32. Oferecemos transfer: peça-o ao reservar.',
+    'tr.gro.t': 'Aeroporto de Girona', 'tr.gro.d': 'Cerca de 20–30 min de carro ou de autocarro direto até Lloret.',
+    'tr.bus.t': 'De autocarro', 'tr.bus.d': 'Linhas diretas de Barcelona e Girona até à estação de autocarros de Lloret.',
+    'tr.train.t': 'De comboio', 'tr.train.d': 'Rodalies R1 até Blanes e depois autocarro ou táxi até Lloret (cerca de 15 min).',
+    'b.breeze.kind': 'Aparthotel de praia', 'b.breeze.tagline': 'Branco, azul Egeu e a praia principal a um passeio.',
+    'b.breeze.perks': 'A 50 m da praia principal|Estilo grego|Wi-Fi gratuito|Cozinha equipada',
+    'b.pareclaret.kind': 'Apartamentos no centro', 'b.pareclaret.tagline': 'Madeira, terracota e terraços ao sol em pleno centro.',
+    'b.pareclaret.perks': 'Estacionamento subterrâneo|Terraços|Centro de Lloret|Wi-Fi gratuito',
+    'b.fenals.kind': 'Apartamentos com piscina', 'b.fenals.tagline': 'Piscina, pinheiros e calma. Pensado para famílias.',
+    'b.fenals.perks': 'Piscina comum|Estacionamento subterrâneo|Zona tranquila|Ideal para famílias',
+    'about.breeze': 'Um pequeno aparthotel a um passeio da praia principal de Lloret. Paredes caiadas, azul Egeu, vime e mosaico hidráulico: o Mediterrâneo grego trazido para a Costa Brava. Apartamentos luminosos para casais e famílias pequenas.',
+    'about.pareclaret': 'O nosso maior edifício: dez apartamentos com nomes de flores em pleno centro de Lloret, com estacionamento subterrâneo. Madeira, tons terra e terraços soalheiros para pequenos-almoços sem pressa.',
+    'about.fenals': 'Dois apartamentos LUX num condomínio tranquilo em Fenals, com piscina comum, jardim e estacionamento subterrâneo. A praia de Fenals e o caminho costeiro ficam a um passeio. Ideal para famílias.',
+    'bh.back': 'Todos os edifícios', 'bh.choose': 'Escolher apartamento', 'sel.plume': 'Escolha o seu apartamento',
+    'sel.breeze.t': 'A fachada', 'sel.breeze.s': 'Toque numa janela para ver o apartamento.',
+    'sel.pareclaret.t': 'O jardim', 'sel.pareclaret.s': 'Dez apartamentos, dez flores. Qual é a sua?',
+    'sel.fenals.t': 'As pistas da piscina', 'sel.fenals.s': 'Dois apartamentos gémeos, junto à água.',
+    'am.kitchen': 'Cozinha equipada', 'am.tv': 'Smart TV', 'am.crib': 'Berço gratuito a pedido', 'am.nosmoke': 'Não fumadores',
+    'am.beach': 'Praia principal a um passeio', 'am.parking': 'Estacionamento subterrâneo', 'am.terrace': 'Terraço', 'am.pool': 'Piscina comum',
+    'spec.size': 'Área', 'spec.beds': 'Quartos',
+    'season.low': 'Época baixa', 'season.mid': 'Época média', 'season.high': 'Época alta', 'price.note': 'preço indicativo por noite',
+    'pd.book': 'Reservar {name}', 'pd.ask': 'Perguntar', 'pd.wa': 'Olá, tenho interesse no apartamento {a} de {b}.',
+    'pd.compare': 'Comparar?', 'pd.see': 'Ver {name}', 'pd.zoom': 'Ampliar foto', 'pd.photo': 'Foto {n}',
+    'near.plume': 'Perto daqui', 'near.title': 'A pé desde {b}', 'near.more': 'Ver todos os lugares', 'others.plume': "Outras casas da Parrot's House",
+    'aria.close': 'Fechar', 'aria.prevPhoto': 'Foto anterior', 'aria.nextPhoto': 'Foto seguinte', 'aria.facade': 'Fachada do edifício {b}',
+  };
+  const PT_NOTES = {
+    19: 'Dois quartos com cabeceiras de vime, sala com sofá azul e mosaico hidráulico geométrico.',
+    18: 'Riscas cor de areia e azul-marinho, sofá de veludo e cozinha aberta com azulejo azul.',
+    17: 'Papel de parede com padrão de azulejo azul, cozinha preto mate e sala luminosa com varanda para a rua.',
+    16: 'Mesa redonda, sofá azul e casa de banho com azulejo metro e detalhes marítimos.',
+    3: 'O mais espaçoso: dois quartos, sala com sofá-cama e terraço com toldo.',
+    4: 'Grande terraço cor de laranja com sofá de exterior e quarto em madeira maciça.',
+    7: 'Acolhedor e luminoso, com sofá-cama para uma terceira pessoa.',
+    8: 'Tons de vinho e madeira, terraço e sofá-cama para uma terceira pessoa.',
+    2: 'Terraço alto com vista sobre os telhados de Lloret.',
+    5: 'Inspirado num campo de papoilas; sofá-cama e terraço.',
+    6: 'Turquesas suaves, mesa de vidro e varanda corrida.',
+    10: 'Sereno e cuidado, com cozinha aberta e terraço.',
+    1: 'Sala comprida com sofá cor de caramelo e terraço cor de laranja.',
+    9: 'Cadeiras coloridas, sofá vermelho e terraço com mesa de vime.',
+    11: 'Sala cinzenta com chaise longue, cozinha aberta e terraço com vista para os pinheiros.',
+    15: 'Sofá vermelho, zona de refeições de estilo nórdico e grande varanda sobre o jardim e a piscina.',
+  };
+  const PT_PLACES = [
+    'A praia principal: areia grossa, passeio marítimo e bares de praia.',
+    'Pequena enseada junto ao castelo, com os barcos dos pescadores.',
+    'Rochas, água transparente e bom snorkel no caminho costeiro.',
+    'Praia ampla e tranquila, perfeita com crianças.',
+    'Areia dourada rodeada de pinheiros, junto à ermida.',
+    'Igreja gótica (1522) com cúpulas modernistas de cerâmica.',
+    'A estátua de bronze que olha o mar a partir do miradouro.',
+    'O castelo neomedieval que coroa o extremo da praia.',
+    'A história marítima de Lloret numa casa de «indiano» no passeio.',
+    'Jardins novecentistas em socalcos sobre a falésia.',
+    'Santuário do séc. XVIII e cenário da procissão marítima de julho.',
+    'Tapas, massas e pizza numa praça animada do centro.',
+    'Cozinha italiana junto ao mar com mais de 20 anos de história.',
+    "Cozinha mediterrânica com vista, ao lado do Castell d'en Plaja.",
+    'Paelhas e arrozes em Fenals.',
+    'Arrozes e peixe a poucos passos da areia.',
+    'Cozinha mediterrânica na zona de Fenals.',
+    'Esplanada para petiscar no centro.',
+    'Hambúrgueres e street food em pleno centro.',
+    'Bar de praia sobre a areia de Fenals.',
+    'Jogo, jantares e espetáculos no fim do passeio.',
+    'Caminho costeiro entre enseadas, ideal ao pôr do sol.',
+    'Parque aquático com escorregas para toda a família.',
+    'Autocarros para Barcelona, Girona e os aeroportos.',
+  ];
+
+  // fusiona cada idioma extra en su columna
+  [['it', IT, IT_NOTES, IT_PLACES], ['pt', PT, PT_NOTES, PT_PLACES]].forEach(([code, dict, notes, places]) => {
+    const ci = COLS.indexOf(code);
+    Object.entries(dict).forEach(([k, v]) => { if (D[k]) D[k][ci] = v; });
+    Object.entries(notes).forEach(([id, v]) => { if (APT_NOTES[id]) APT_NOTES[id][ci] = v; });
+    places.forEach((v, i) => { if (PLACE_D[i]) PLACE_D[i][ci] = v; });
+  });
 
   /* ---------- API ---------- */
   const fill = (s, vars) => (vars ? s.replace(/\{(\w+)\}/g, (m, k) => (vars[k] !== undefined ? vars[k] : m)) : s);
