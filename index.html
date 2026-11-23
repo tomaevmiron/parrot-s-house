@@ -10,6 +10,8 @@
   <script>
     try {
       var h = document.documentElement;
+      var th = localStorage.getItem('ph_theme');
+      if (th === 'dark' || (!th && matchMedia('(prefers-color-scheme: dark)').matches)) h.setAttribute('data-theme', 'dark');
       if (sessionStorage.getItem('ph_wing')) h.classList.add('wing-pending');
       else if (!sessionStorage.getItem('ph_seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches) h.classList.add('intro-pending');
     } catch (e) {}
@@ -62,7 +64,7 @@
 <section class="hero" id="inicio">
   <svg class="hero__arcs" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <path d="M760 -40 C 980 120 1060 330 1240 420" stroke="#0f70b7" />
-    <path d="M700 820 C 760 600 900 470 1240 470" stroke="#16191d" />
+    <path d="M700 820 C 760 600 900 470 1240 470" style="stroke: var(--black)" />
     <path d="M640 820 C 640 650 700 520 820 440" stroke="#c7c5c6" />
   </svg>
   <div class="wrap hero__grid">

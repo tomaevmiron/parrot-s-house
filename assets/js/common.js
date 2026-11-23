@@ -48,6 +48,58 @@
     });
   }
   buildLangSwitch();
+
+  /* ---------- Modo oscuro (botón luna/sol en la cabecera) ---------- */
+  const root = document.documentElement;
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  const lightThemeColor = metaTheme ? metaTheme.content : '#0f70b7';
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isDark = () => root.getAttribute('data-theme') === 'dark';
+  let themeBtn = null;
+  function paintThemeBtn() {
+    if (metaTheme) metaTheme.content = isDark() ? '#0b1826' : lightThemeColor;
+    if (!themeBtn) return;
+    const label = t(isDark() ? 'theme.toLight' : 'theme.toDark');
+    themeBtn.setAttribute('aria-label', label);
+    themeBtn.title = label;
+    themeBtn.setAttribute('aria-pressed', isDark());
+  }
+  function applyTheme(dark) {
+    if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+    paintThemeBtn();
+  }
+  PH.setTheme = (dark, animate) => {
+    if (dark === isDark()) return;
+    if (!animate || reduceMotion) { applyTheme(dark); return; }
+    if (document.startViewTransition) {
+      document.startViewTransition(() => applyTheme(dark));       // fundido por GPU
+    } else {
+      root.classList.add('theme-anim');
+      applyTheme(dark);
+      setTimeout(() => root.classList.remove('theme-anim'), 500);
+    }
+  };
+  if (header) {
+    themeBtn = document.createElement('button');
+    themeBtn.type = 'button';
+    themeBtn.className = 'theme-btn';
+    themeBtn.innerHTML = `
+      <svg class="ico i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+      <svg class="ico i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>`;
+    const wrap = header.querySelector('.wrap');
+    wrap.insertBefore(themeBtn, header.querySelector('.lang') || document.getElementById('burger'));
+    themeBtn.addEventListener('click', () => {
+      const next = !isDark();
+      try { localStorage.setItem('ph_theme', next ? 'dark' : 'light'); } catch (e) {}
+      PH.setTheme(next, true);
+    });
+  }
+  paintThemeBtn();
+  // si el visitante no ha elegido, sigue el modo de su sistema en tiempo real
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  const onSystem = (e) => { let saved = null; try { saved = localStorage.getItem('ph_theme'); } catch (err) {} if (!saved) PH.setTheme(e.matches, true); };
+  if (mq.addEventListener) mq.addEventListener('change', onSystem); else if (mq.addListener) mq.addListener(onSystem);
+
   PH.fillIcons();
 
   /* ---------- ® → certificado de registro de la marca ----------
