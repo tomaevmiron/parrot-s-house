@@ -1,6 +1,6 @@
 /* =========================================================
    Parrot's House — el ala
-   Un ala gigante de loro (plumas azul / rojo / gris, los colores
+   Un ala gigante de loro (plumas azul / negro / gris, colores
    del logo) que barre la pantalla: en la intro y al cambiar de página.
 
    Rendimiento: cada tipo de pluma se pinta UNA sola vez en un canvas.
@@ -15,14 +15,14 @@
 
   const PALETTE = {
     blue: ['#0b5a95', '#0f70b7', '#3a8fd0'],
-    red: ['#b8241f', '#e7302a', '#f0645a'],
+    black: ['#050607', '#16191d', '#3d434a'],
     grey: ['#9fa3a8', '#c7c5c6', '#e4e3e3'],
     navy: ['#0a4a7c', '#0f70b7', '#5aa2da'],
   };
   // filas: de la más larga (detrás) a la más corta (delante)
   const ROWS = [
     { len: 1.18, w: 0.17, col: 'blue', n: 13 },
-    { len: 0.8, w: 0.2, col: 'red', n: 11 },
+    { len: 0.8, w: 0.2, col: 'black', n: 11 },
     { len: 0.55, w: 0.24, col: 'grey', n: 10 },
     { len: 0.34, w: 0.3, col: 'navy', n: 8 },
   ];

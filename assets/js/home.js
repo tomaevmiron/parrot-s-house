@@ -487,7 +487,7 @@
     // algunas referencias
     ['Església de Sant Romà', 'Dona Marinera', 'Platja de Fenals', 'Platja de Lloret'].forEach((n) => {
       const p = PH.PLACES.find((x) => x.n === n);
-      L.circleMarker([p.lat, p.lng], { radius: 6, color: '#fff', weight: 2, fillColor: '#e7302a', fillOpacity: 1 })
+      L.circleMarker([p.lat, p.lng], { radius: 6, color: '#fff', weight: 2, fillColor: '#16191d', fillOpacity: 1 })
         .addTo(map).bindTooltip(p.n, { direction: 'top', offset: [0, -6] });
     });
     map.fitBounds(L.latLngBounds(PH.LOCATIONS.map((l) => [l.lat, l.lng])).pad(0.25));

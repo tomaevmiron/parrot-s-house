@@ -26,11 +26,11 @@ html.intro-pending body { overflow: hidden; }
 @keyframes blink { 0%, 100% { transform: translateY(-102%); } 45%, 60% { transform: translateY(0); } }
 .intro__name {
   margin-top: 26px; font-size: clamp(3rem, 12vw, 8.4rem); font-weight: 800; letter-spacing: -.045em; line-height: .95;
-  color: var(--blue-ink);
+  color: var(--black);
 }
 .intro__name span { display: inline-block; opacity: 0; transform: translateY(45%); }
-.intro__name span:first-child { color: var(--blue); }
-.intro__name sup { font-size: .22em; color: var(--red); vertical-align: top; position: relative; top: .5em; opacity: 0; }
+.intro__name span:first-child { color: var(--black); }
+.intro__name sup { font-size: .22em; color: var(--black); vertical-align: top; position: relative; top: .5em; opacity: 0; }
 .intro.show .intro__name span { animation: up .8s cubic-bezier(.2, .9, .2, 1) forwards; }
 .intro.show .intro__name span:first-child { animation-delay: .55s; }
 .intro.show .intro__name span:nth-child(2) { animation-delay: .7s; }
@@ -56,7 +56,7 @@ html.intro-pending body { overflow: hidden; }
 .hero__title em { font-style: normal; color: var(--blue); position: relative; white-space: nowrap; }
 .hero__title em::after {
   content: ''; position: absolute; left: .02em; right: .02em; bottom: .02em; height: .1em; z-index: -1;
-  background: var(--red); border-radius: 2px 14px; transform-origin: left; opacity: .9;
+  background: var(--black); border-radius: 2px 14px; transform-origin: left; opacity: .9;
 }
 .hero__lead { font-size: 1.12rem; color: var(--ink-2); max-width: 56ch; }
 .hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -96,7 +96,7 @@ html.intro-pending body { overflow: hidden; }
 .perks__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px 22px; }
 .perks__list li { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: .94rem; color: var(--ink-2); }
 .perks__list .ico { width: 42px; height: 42px; padding: 10px; border-radius: var(--r-leaf); background: var(--blue-soft); color: var(--blue); }
-.perks__list li:nth-child(3n+2) .ico { background: var(--red-soft); color: var(--red); }
+.perks__list li:nth-child(3n+2) .ico { background: var(--black-soft); color: var(--black); }
 .perks__list li:nth-child(3n) .ico { background: var(--grey-soft); color: var(--ink-2); }
 
 /* ---------- Secciones ---------- */
@@ -309,7 +309,7 @@ html.intro-pending body { overflow: hidden; }
   border-radius: 10px 30px 10px 30px; background: linear-gradient(135deg, #1580cc 0%, var(--blue) 40%, var(--blue-deep) 75%, #0c2e4a 100%);
   font-family: 'DM Mono', 'Onest', monospace; box-shadow: 0 18px 30px -16px rgba(12, 46, 74, .6);
 }
-.cardviz::before { content: ''; position: absolute; left: -40%; bottom: -70%; width: 120%; height: 120%; border-radius: 50%; border: 18px solid rgba(231, 48, 42, .55); }
+.cardviz::before { content: ''; position: absolute; left: -40%; bottom: -70%; width: 120%; height: 120%; border-radius: 50%; border: 18px solid rgba(22, 25, 29, .55); }
 .cardviz::after { content: ''; position: absolute; left: -30%; bottom: -90%; width: 120%; height: 120%; border-radius: 50%; border: 14px solid rgba(199, 197, 198, .4); }
 .cardviz img { position: absolute; top: 18px; right: 18px; width: 42px; }
 .cardviz span { position: absolute; z-index: 1; }
@@ -387,7 +387,7 @@ html.intro-pending body { overflow: hidden; }
 .pin { background: none; border: 0; }
 .pin__in { position: absolute; left: 0; top: 0; width: 54px; height: 54px; border-radius: 50% 50% 50% 6px; transform: rotate(-45deg); background: #fff; box-shadow: 0 8px 18px rgba(12, 46, 74, .3); display: grid; place-items: center; }
 .pin__in img { width: 44px; height: 44px; transform: rotate(45deg); }
-.pin b { position: absolute; top: -6px; right: -6px; width: 23px; height: 23px; border-radius: 50%; background: var(--red); color: #fff; font-size: .75rem; display: grid; place-items: center; border: 2px solid #fff; }
+.pin b { position: absolute; top: -6px; right: -6px; width: 23px; height: 23px; border-radius: 50%; background: var(--black); color: #fff; font-size: .75rem; display: grid; place-items: center; border: 2px solid #fff; }
 .leaflet-container { font-family: var(--font-body); }
 .ph-tiles { filter: saturate(.75) contrast(.96) brightness(1.03); }
 .leaflet-popup-content-wrapper { border-radius: 4px 18px 4px 18px; }

@@ -22,7 +22,7 @@ body {
 .bh__addr .ico { color: var(--t-acc); }
 .bh__row { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; margin-top: 30px; }
 .btn { --b: var(--t-acc); }
-.btn--red { --b: var(--red); }
+.btn--dark { --b: var(--black); }
 .bh__from { font-size: .95rem; color: var(--t-ink2); }
 .bh__from b { color: var(--t-ink); }
 .bh__media { position: relative; aspect-ratio: 1 / .95; }

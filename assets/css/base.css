@@ -11,6 +11,8 @@
   --red: #e7302a;
   --red-deep: #c0241f;
   --red-soft: #fdecea;
+  --black: #16191d;             /* negro del ojo del loro: sustituye al rojo donde coinciden rojo, azul y blanco */
+  --black-soft: #ebebec;
   --grey: #c7c5c6;
   --grey-soft: #eeeded;
   --ink: #15212d;
@@ -59,7 +61,7 @@ p { margin: 0; }
   content: ''; width: 34px; height: 10px; flex: none;
   background:
     linear-gradient(var(--blue), var(--blue)) 0 0 / 14px 10px no-repeat,
-    linear-gradient(var(--red), var(--red)) 16px 0 / 9px 10px no-repeat,
+    linear-gradient(var(--black), var(--black)) 16px 0 / 9px 10px no-repeat,
     linear-gradient(var(--grey), var(--grey)) 27px 0 / 7px 10px no-repeat;
   border-radius: 1px 8px;
 }
@@ -79,7 +81,7 @@ p { margin: 0; }
 .btn:active { transform: translateY(0); }
 .btn .ico { transition: transform .2s; }
 .btn:hover .ico { transform: translateX(3px); }
-.btn--red { --b: var(--red); }
+.btn--dark { --b: var(--black); }
 .btn--ghost { background: transparent; color: var(--b); }
 .btn--ghost:hover { background: var(--b); color: var(--f); }
 .btn--light { --b: #fff; --f: var(--blue-ink); }
@@ -207,7 +209,7 @@ a.tm:hover, a.tm:focus-visible { color: var(--red); transform: scale(1.25); }
 .wing__f { position: absolute; left: 0; top: 0; display: block; will-change: transform; backface-visibility: hidden; pointer-events: none; }
 html.wing-pending body::after {
   content: ''; position: fixed; inset: 0; z-index: 999;
-  background: linear-gradient(135deg, var(--blue) 0 45%, var(--red) 45% 70%, var(--grey) 70%);
+  background: linear-gradient(135deg, var(--blue) 0 45%, var(--black) 45% 70%, var(--grey) 70%);
 }
 
 /* ---------- Tarjeta / utilidades ---------- */
