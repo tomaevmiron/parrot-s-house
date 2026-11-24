@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Página interna de prueba: no está enlazada desde la web y no debe salir en buscadores -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Prueba del motor de reservas · Parrot's House</title>
+  <link rel="icon" type="image/png" href="assets/img/logo-original.png">
+  <meta name="theme-color" content="#0f70b7">
+  <script>try { var h = document.documentElement, th = localStorage.getItem('ph_theme'); if (th === 'dark' || (!th && matchMedia('(prefers-color-scheme: dark)').matches)) h.setAttribute('data-theme', 'dark'); if (sessionStorage.getItem('ph_wing')) h.classList.add('wing-pending'); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .b24 { padding: calc(var(--header-h) + 48px) 0 80px; }
+    .b24__head { display: grid; gap: 14px; margin-bottom: 28px; }
+    .b24__head h1 { font-size: clamp(2rem, 4.4vw, 3.2rem); }
+    .b24__note {
+      display: grid; gap: 6px; max-width: 72ch; padding: 16px 20px;
+      background: var(--blue-mist); border: 1px solid var(--line); border-left: 4px solid var(--blue);
+      border-radius: 4px 18px; color: var(--ink-2); font-size: .97rem;
+    }
+    .b24__note b { color: var(--ink); }
+    .b24__note a { color: var(--blue); font-weight: 700; }
+    .b24__frame {
+      background: #fff; border: 1px solid var(--line); border-radius: var(--r-card);
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .b24__frame iframe { display: block; width: 100%; height: 1600px; border: 0; }
+    @media (max-width: 640px) { .b24__frame iframe { height: 2200px; } }
+  </style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="wrap">
+    <a class="brand" href="index.html" data-wing data-i18n-attr="aria-label:aria.backHome" aria-label="Parrot's House, volver al inicio">
+      <img src="assets/img/logo-original.png" data-i18n-attr="alt:alt.logo" alt="Logo de Parrot's House" width="46" height="46">
+      <span><b>Parrot's House<sup>®</sup></b><small>Prueba de reservas</small></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Edificios">
+      <a href="breeze.html" data-wing>Breeze</a>
+      <a href="pare-claret.html" data-wing>Pare Claret</a>
+      <a href="fenals.html" data-wing>Fenals</a>
+    </nav>
+    <a class="btn btn--dark btn--sm" href="index.html#reserva" data-wing data-i18n="cta.book">Reservar</a>
+    <button class="burger" id="burger" data-i18n-attr="aria-label:aria.menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="b24">
+  <section class="wrap b24__head">
+    <span class="plume">Prueba interna</span>
+    <h1>Motor de reservas de Beds24</h1>
+    <div class="b24__note">
+      <p><b>Es la página de reservas de Beds24 tal como viene, sin diseño propio,</b> metida dentro de la web para ver cómo encaja. De momento solo está el edificio Breeze, con los pisos N1 y N2.</p>
+      <p>La cuenta de Beds24 está en periodo de prueba: hasta que haga su primer pago, la página no deja completar reservas y solo ofrece «Enquire» (pedir información).</p>
+      <p><a id="b24-open" href="https://beds24.com/booking2.php?propid=370575" target="_blank" rel="noopener">Abrir la página de Beds24 en una pestaña nueva</a></p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="b24__frame">
+      <iframe id="b24-frame" title="Reservas de Parrot's House (Beds24)" src="https://beds24.com/booking2.php?propid=370575&amp;referer=iframe"></iframe>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="legal">
+      <span>© <span id="year">2026</span> Parrot's House<sup>®</sup>. <span data-i18n="foot.legal">Nombre y logotipo son marcas registradas.</span></span>
+      <span>Lloret de Mar · Costa Brava</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/wing.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+  // El motor de Beds24 se abre en el idioma elegido en la web
+  (function () {
+    var base = 'https://beds24.com/booking2.php?propid=370575';
+    var lang = (window.PH && PH.lang) || 'es';
+    document.getElementById('b24-frame').src = base + '&referer=iframe&lang=' + lang;
+    document.getElementById('b24-open').href = base + '&lang=' + lang;
+  })();
+</script>
+</body>
+</html>
