@@ -107,6 +107,14 @@ PH.nightPrice = (apt, d) => Math.round((apt.base * PH.season(d).f) / 5) * 5;
 PH.CLEANING = 40;
 PH.TOURIST_TAX = 1.1; // € por adulto y noche (orientativo)
 
+/* Pago con tarjeta: enlace de pago de Stripe en MODO PRUEBA (no cobra dinero real).
+   El importe lo fija el enlace en Stripe (45 €), no el total de la reserva.
+   Cuando el cobro pase a Beds24, esto se sustituye por su motor de reservas. */
+PH.STRIPE_TEST = {
+  link: 'https://buy.stripe.com/test_bJe5kCfDRcze6Df2izgrS00',
+  amount: 45,
+};
+
 /* Ocupación pseudoaleatoria y estable por piso y fecha */
 PH.isBooked = (apt, d) => {
   const key = apt.id * 7919 + Math.floor(d.getTime() / 864e5);

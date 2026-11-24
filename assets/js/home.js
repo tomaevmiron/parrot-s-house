@@ -340,39 +340,36 @@
   }
 
   // Pago
+  // Tarjeta → página de pago de Stripe (modo prueba). Bizum y "pagar al llegar" siguen simulados.
   const pay = $('#pay');
+  const payBtn = $('#pay-btn');
+  const btnLabel = () => t(st.pm === 'card' ? 'bk.toStripe' : st.pm === 'arrival' ? 'bk.confirmBtn' : 'bk.payBtn');
+  $('#stripe-test').textContent = t('pm.stripeTest', { p: PH.eur(PH.STRIPE_TEST.amount) });
   $('#paym').addEventListener('change', (e) => {
     st.pm = e.target.value;
     $$('.pm-pane').forEach((p) => p.classList.toggle('is-on', p.dataset.pm === st.pm));
-    $('#pay-btn').textContent = st.pm === 'arrival' ? t('bk.confirmBtn') : t('bk.payBtn');
+    payBtn.textContent = btnLabel();
     renderSum();
   });
-  const cv = $('#cardviz');
-  pay.cc.addEventListener('input', () => {
-    const v = pay.cc.value.replace(/\D/g, '').slice(0, 16);
-    pay.cc.value = v.replace(/(.{4})/g, '$1 ').trim();
-    cv.querySelector('.cv-num').textContent = (v + '•'.repeat(16 - v.length)).replace(/(.{4})/g, '$1 ').trim();
-  });
-  pay.exp.addEventListener('input', () => {
-    let v = pay.exp.value.replace(/\D/g, '').slice(0, 4);
-    if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
-    pay.exp.value = v; cv.querySelector('.cv-exp').textContent = v || t('cv.exp');
-  });
-  pay.cvc.addEventListener('input', () => { pay.cvc.value = pay.cvc.value.replace(/\D/g, '').slice(0, 4); });
-  pay.name.addEventListener('input', () => { cv.querySelector('.cv-name').textContent = pay.name.value.toUpperCase() || t('cv.name'); });
+  // Si el visitante vuelve atrás desde Stripe, el botón tiene que volver a estar activo
+  window.addEventListener('pageshow', (e) => { if (e.persisted) { payBtn.disabled = false; payBtn.textContent = btnLabel(); } });
+
+  function showDone(code, email, viaStripe) {
+    $('#done-code').textContent = code;
+    $('#done-mail').textContent = email;
+    $('#done-fine').textContent = t(viaStripe ? 'done.fineStripe' : 'done.fine');
+    goStep(4);
+    $('#bk-steps li:last-child').classList.add('is-done');
+  }
+  const STRIPE_LOCALES = ['es', 'en', 'fr', 'de', 'nl', 'it', 'pt', 'ru'];
 
   pay.addEventListener('submit', (e) => {
     e.preventDefault();
-    const need = ['name', 'email', 'tel'];
-    if (st.pm === 'card') need.push('cc', 'exp', 'cvc');
     let ok = true;
-    need.forEach((n) => {
+    ['name', 'email', 'tel'].forEach((n) => {
       const f = pay[n];
       let valid = f.value.trim().length > 1;
-      if (n === 'email') valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value);
-      if (n === 'cc') valid = f.value.replace(/\D/g, '').length >= 15;
-      if (n === 'exp') valid = /^(0[1-9]|1[0-2])\/\d\d$/.test(f.value);
-      if (n === 'cvc') valid = f.value.length >= 3;
+      if (n === 'email') valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value.trim());
       f.closest('.field').classList.toggle('is-bad', !valid);
       if (!valid) ok = false;
     });
@@ -380,19 +377,37 @@
     chk.closest('.check').classList.toggle('is-bad', !chk.checked);
     if (!chk.checked) ok = false;
     if (!ok) { pay.querySelector('.is-bad input, .is-bad textarea')?.focus(); return; }
-    const btn = $('#pay-btn');
-    btn.disabled = true; btn.textContent = t('bk.processing');
+
+    const code = 'PH-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+    const email = pay.email.value.trim();
+    payBtn.disabled = true;
+
+    if (st.pm === 'card') {
+      // Se guarda la reserva para enseñarla al volver de Stripe
+      try {
+        sessionStorage.setItem('ph_pay', JSON.stringify({ code, email, apt: st.apt.id, in: PH.ymd(st.in), out: PH.ymd(st.out), guests: st.guests }));
+      } catch (err) {}
+      // Referencia que se ve en el pago dentro de Stripe: código_piso_entrada_salida_personas
+      const ref = [code, 'apt' + st.apt.id, PH.ymd(st.in).replace(/-/g, ''), PH.ymd(st.out).replace(/-/g, ''), 'g' + st.guests].join('_');
+      const u = new URL(PH.STRIPE_TEST.link);
+      u.searchParams.set('prefilled_email', email);
+      u.searchParams.set('client_reference_id', ref);
+      u.searchParams.set('locale', STRIPE_LOCALES.includes(PH.lang) ? PH.lang : 'auto');
+      payBtn.textContent = t('bk.redirecting');
+      location.href = u.toString();
+      return;
+    }
+
+    payBtn.textContent = t('bk.processing');
     setTimeout(() => {
-      $('#done-code').textContent = 'PH-' + Math.random().toString(36).slice(2, 7).toUpperCase();
-      $('#done-mail').textContent = pay.email.value;
-      btn.disabled = false; btn.textContent = st.pm === 'arrival' ? t('bk.confirmBtn') : t('bk.payBtn');
-      goStep(4);
-      $('#bk-steps li:last-child').classList.add('is-done');
+      payBtn.disabled = false; payBtn.textContent = btnLabel();
+      showDone(code, email, false);
     }, 1100);
   });
   $('#bk-reset').addEventListener('click', () => {
     pay.reset(); st.apt = null; st.in = st.out = null; st.pm = 'card';
     $$('.pm-pane').forEach((p) => p.classList.toggle('is-on', p.dataset.pm === 'card'));
+    payBtn.textContent = btnLabel();
     renderApts(); goStep(1);
   });
 
@@ -420,9 +435,25 @@
   });
 
   // ¿Venimos de una subpágina con un piso elegido? (?apt=19#reserva)
+  // ¿O volvemos de pagar en Stripe? (?pago=ok, configurado en el enlace de pago)
   const qp = new URLSearchParams(location.search);
   renderApts();
-  if (qp.get('apt') && PH.aptById(qp.get('apt'))) {
+  let back = null;
+  if (qp.get('pago') === 'ok') {
+    try { back = JSON.parse(sessionStorage.getItem('ph_pay')); sessionStorage.removeItem('ph_pay'); } catch (err) {}
+    history.replaceState(null, '', location.pathname + '#reserva');
+  }
+  if (back && PH.aptById(back.apt)) {
+    st.apt = PH.aptById(back.apt);
+    st.in = PH.parse(back.in); st.out = PH.parse(back.out); st.guests = back.guests;
+    $('#bk-guests').textContent = st.guests;
+    renderApts();
+    showDone(back.code, back.email, true);
+    requestAnimationFrame(() => document.getElementById('reserva').scrollIntoView());
+  } else if (qp.get('pago') === 'ok') {
+    showDone('—', '', true);
+    requestAnimationFrame(() => document.getElementById('reserva').scrollIntoView());
+  } else if (qp.get('apt') && PH.aptById(qp.get('apt'))) {
     st.apt = PH.aptById(qp.get('apt'));
     st.guests = Math.min(st.guests, st.apt.cap);
     $('#bk-guests').textContent = st.guests;

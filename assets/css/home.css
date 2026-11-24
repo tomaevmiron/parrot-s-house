@@ -304,18 +304,19 @@ html.intro-pending body { overflow: hidden; }
 .pm-pane { display: none; }
 .pm-pane.is-on { display: block; }
 .pm-pane > p { padding: 16px; background: var(--blue-mist); border-radius: var(--r-card); color: var(--ink-2); }
-.cardviz {
-  position: relative; overflow: hidden; width: min(100%, 340px); aspect-ratio: 1.6; margin-bottom: 16px; color: #fff;
-  border-radius: 10px 30px 10px 30px; background: linear-gradient(135deg, #1580cc 0%, #0f70b7 40%, #0a4f84 75%, #0c2e4a 100%);
-  font-family: 'DM Mono', 'Onest', monospace; box-shadow: 0 18px 30px -16px rgba(12, 46, 74, .6);
+/* Pago con tarjeta en la página segura de Stripe */
+.stripe-box {
+  display: grid; gap: 10px; padding: 18px 20px; color: var(--ink-2);
+  background: var(--blue-mist); border: 1px solid var(--line); border-left: 4px solid #635bff; border-radius: var(--r-card);
 }
-.cardviz::before { content: ''; position: absolute; left: -40%; bottom: -70%; width: 120%; height: 120%; border-radius: 50%; border: 18px solid rgba(22, 25, 29, .55); }
-.cardviz::after { content: ''; position: absolute; left: -30%; bottom: -90%; width: 120%; height: 120%; border-radius: 50%; border: 14px solid rgba(199, 197, 198, .4); }
-.cardviz img { position: absolute; top: 18px; right: 18px; width: 42px; }
-.cardviz span { position: absolute; z-index: 1; }
-.cv-num { left: 20px; bottom: 58px; font-size: 1.12rem; letter-spacing: .08em; }
-.cv-name { left: 20px; bottom: 20px; font-size: .78rem; max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cv-exp { right: 20px; bottom: 20px; font-size: .78rem; }
+.stripe-box__brands { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: .88rem; color: var(--ink-3); }
+.stripe-box__brands b { font-family: var(--font-display); font-size: 1.05rem; color: #635bff; letter-spacing: -.01em; }
+.stripe-box__brands .ico { color: #635bff; }
+.stripe-box__test {
+  padding: 10px 12px; font-size: .88rem; color: var(--ink);
+  background: var(--card); border: 1px dashed color-mix(in srgb, #635bff 55%, var(--line)); border-radius: 4px 14px;
+}
+[data-theme="dark"] .stripe-box__brands b, [data-theme="dark"] .stripe-box__brands .ico { color: #a29dff; }
 .check { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; cursor: pointer; }
 .check input { margin-top: 5px; accent-color: var(--blue); }
 .check.is-bad { color: var(--red-deep); }

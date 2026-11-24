@@ -231,15 +231,11 @@
               <label><input type="radio" name="pm" value="arrival"><span><i data-ico="clock"></i> <span data-i18n="pm.arrival">Pagar al llegar</span></span></label>
             </div>
             <div class="pm-pane is-on" data-pm="card">
-              <div class="cardviz" id="cardviz" aria-hidden="true">
-                <img src="assets/img/logo-original.png" alt="">
-                <span class="cv-num">•••• •••• •••• ••••</span>
-                <span class="cv-name" data-i18n="cv.name">TU NOMBRE</span><span class="cv-exp" data-i18n="cv.exp">MM/AA</span>
-              </div>
-              <div class="fgrid">
-                <label class="field field--full"><span data-i18n="f.cc">Número de tarjeta</span><input name="cc" inputmode="numeric" placeholder="4242 4242 4242 4242" maxlength="19" autocomplete="off"></label>
-                <label class="field"><span data-i18n="f.exp">Caducidad</span><input name="exp" data-i18n-attr="placeholder:cv.exp" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="off"></label>
-                <label class="field"><span>CVC</span><input name="cvc" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="off"></label>
+              <!-- La tarjeta se paga en la página segura de Stripe: la web nunca ve los datos de la tarjeta -->
+              <div class="stripe-box">
+                <p class="stripe-box__brands"><i data-ico="lock"></i> <b>Stripe</b> <span>Visa · Mastercard · Apple Pay · Google Pay</span></p>
+                <p data-i18n="pm.stripeText">Al confirmar te llevamos a la página de pago seguro de Stripe, donde puedes pagar con tarjeta, Apple Pay o Google Pay.</p>
+                <p class="stripe-box__test" id="stripe-test"></p>
               </div>
             </div>
             <div class="pm-pane" data-pm="bizum"><p data-i18n="pm.bizumText">Te enviaremos una solicitud de pago Bizum al teléfono indicado al confirmar.</p></div>
@@ -249,7 +245,7 @@
           <p class="sim"><i data-ico="lock"></i> <span data-i18n="f.sim">Simulación de pago: no se realiza ningún cargo real.</span></p>
           <div class="bk__nav">
             <button type="button" class="btn btn--ghost" data-go="2"><i data-ico="back"></i> <span data-i18n="step2">Fechas</span></button>
-            <button type="submit" class="btn btn--dark" id="pay-btn" data-i18n="bk.payBtn">Confirmar y pagar</button>
+            <button type="submit" class="btn btn--dark" id="pay-btn" data-i18n="bk.toStripe">Ir al pago seguro</button>
           </div>
         </form>
 
@@ -258,7 +254,7 @@
           <img src="assets/img/logo-original.png" alt="" class="done-logo">
           <h3 data-i18n="done.title">¡Reserva confirmada!</h3>
           <p><span data-i18n="done.code">Código de reserva</span> <b id="done-code">PH-0000</b>. <span data-i18n="done.sent">Te hemos enviado los detalles a</span> <b id="done-mail"></b>.</p>
-          <p class="fine" data-i18n="done.fine">(Simulación: no se ha enviado ningún email ni realizado ningún cargo.)</p>
+          <p class="fine" id="done-fine" data-i18n="done.fine">(Simulación: no se ha enviado ningún email ni realizado ningún cargo.)</p>
           <button type="button" class="btn btn--ghost" id="bk-reset" data-i18n="done.again">Hacer otra reserva</button>
         </div>
       </div>
