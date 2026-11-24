@@ -71,7 +71,7 @@ export function quote(input) {
   const now = new Date();
   const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   if (a.getTime() < today - DAY) return { error: 'fecha_pasada' }; // margen de un día por zonas horarias
-  const nights = Math.round((b - a) / DAY);
+  const nights = Math.round((b.getTime() - a.getTime()) / DAY);
   if (nights < MIN_NIGHTS || nights > MAX_NIGHTS) return { error: 'noches' };
   const guests = Number(input.guests);
   if (!Number.isInteger(guests) || guests < 1 || guests > apt.cap) return { error: 'huespedes' };
