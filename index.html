@@ -242,6 +242,7 @@
             <div class="pm-pane" data-pm="arrival"><p data-i18n="pm.arrivalText">Pagas el total al llegar, en efectivo o con tarjeta. Guardamos tu reserva 48 h sin cargo.</p></div>
           </fieldset>
           <label class="check"><input type="checkbox" name="ok" required> <span data-i18n="f.terms">Acepto las condiciones de reserva y la política de cancelación.</span></label>
+          <p class="pay-msg" id="pay-msg" role="alert" hidden></p>
           <p class="sim"><i data-ico="lock"></i> <span data-i18n="f.sim">Simulación de pago: no se realiza ningún cargo real.</span></p>
           <div class="bk__nav">
             <button type="button" class="btn btn--ghost" data-go="2"><i data-ico="back"></i> <span data-i18n="step2">Fechas</span></button>
@@ -254,6 +255,7 @@
           <img src="assets/img/logo-original.png" alt="" class="done-logo">
           <h3 data-i18n="done.title">¡Reserva confirmada!</h3>
           <p><span data-i18n="done.code">Código de reserva</span> <b id="done-code">PH-0000</b>. <span data-i18n="done.sent">Te hemos enviado los detalles a</span> <b id="done-mail"></b>.</p>
+          <p class="done-paid" id="done-paid" hidden></p>
           <p class="fine" id="done-fine" data-i18n="done.fine">(Simulación: no se ha enviado ningún email ni realizado ningún cargo.)</p>
           <button type="button" class="btn btn--ghost" id="bk-reset" data-i18n="done.again">Hacer otra reserva</button>
         </div>

@@ -317,6 +317,11 @@ html.intro-pending body { overflow: hidden; }
   background: var(--card); border: 1px dashed color-mix(in srgb, #635bff 55%, var(--line)); border-radius: 4px 14px;
 }
 [data-theme="dark"] .stripe-box__brands b, [data-theme="dark"] .stripe-box__brands .ico { color: #a29dff; }
+.pay-msg {
+  margin-top: 12px; padding: 12px 14px; font-size: .92rem; font-weight: 600; color: var(--ink);
+  background: var(--red-soft); border-left: 4px solid var(--red); border-radius: 4px 14px;
+}
+.done-paid { margin-top: 6px; font-weight: 700; color: var(--blue-deep); }
 .check { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; cursor: pointer; }
 .check input { margin-top: 5px; accent-color: var(--blue); }
 .check.is-bad { color: var(--red-deep); }

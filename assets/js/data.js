@@ -107,13 +107,11 @@ PH.nightPrice = (apt, d) => Math.round((apt.base * PH.season(d).f) / 5) * 5;
 PH.CLEANING = 40;
 PH.TOURIST_TAX = 1.1; // € por adulto y noche (orientativo)
 
-/* Pago con tarjeta: enlace de pago de Stripe en MODO PRUEBA (no cobra dinero real).
-   El importe lo fija el enlace en Stripe (45 €), no el total de la reserva.
-   Cuando el cobro pase a Beds24, esto se sustituye por su motor de reservas. */
-PH.STRIPE_TEST = {
-  link: 'https://buy.stripe.com/test_bJe5kCfDRcze6Df2izgrS00',
-  amount: 45,
-};
+/* Pago con tarjeta: dirección de la función de cobro en Cloudflare (cloudflare/pagos/worker.js).
+   La función recalcula el precio y abre Stripe Checkout por el importe exacto (modo prueba).
+   Vacío = la opción "Tarjeta" funciona como simulación, sin cobrar.
+   ⚠️ Si cambian los precios de aquí arriba, hay que cambiarlos también en la función. */
+PH.PAY_API = '';
 
 /* Ocupación pseudoaleatoria y estable por piso y fecha */
 PH.isBooked = (apt, d) => {

@@ -340,28 +340,36 @@
   }
 
   // Pago
-  // Tarjeta → página de pago de Stripe (modo prueba). Bizum y "pagar al llegar" siguen simulados.
+  // Tarjeta → función de cobro (Cloudflare) → Stripe Checkout por el importe exacto (modo prueba).
+  // Sin PH.PAY_API, o con Bizum / pagar al llegar, la reserva sigue siendo una simulación.
   const pay = $('#pay');
   const payBtn = $('#pay-btn');
-  const btnLabel = () => t(st.pm === 'card' ? 'bk.toStripe' : st.pm === 'arrival' ? 'bk.confirmBtn' : 'bk.payBtn');
-  $('#stripe-test').textContent = t('pm.stripeTest', { p: PH.eur(PH.STRIPE_TEST.amount) });
+  const payMsg = $('#pay-msg');
+  const live = !!PH.PAY_API;
+  const btnLabel = () => t(st.pm === 'card' && live ? 'bk.toStripe' : st.pm === 'arrival' ? 'bk.confirmBtn' : 'bk.payBtn');
+  const say = (key) => { payMsg.textContent = key ? t(key) : ''; payMsg.hidden = !key; };
+  $('#stripe-test').textContent = t(live ? 'pm.stripeTest' : 'pm.stripeSoon');
+  payBtn.textContent = btnLabel();
   $('#paym').addEventListener('change', (e) => {
     st.pm = e.target.value;
     $$('.pm-pane').forEach((p) => p.classList.toggle('is-on', p.dataset.pm === st.pm));
     payBtn.textContent = btnLabel();
+    say('');
     renderSum();
   });
   // Si el visitante vuelve atrás desde Stripe, el botón tiene que volver a estar activo
   window.addEventListener('pageshow', (e) => { if (e.persisted) { payBtn.disabled = false; payBtn.textContent = btnLabel(); } });
 
-  function showDone(code, email, viaStripe) {
+  function showDone(code, email, viaStripe, paidTotal) {
     $('#done-code').textContent = code;
     $('#done-mail').textContent = email;
     $('#done-fine').textContent = t(viaStripe ? 'done.fineStripe' : 'done.fine');
+    const paid = $('#done-paid');
+    paid.hidden = paidTotal == null;
+    if (paidTotal != null) paid.textContent = t('done.paid', { p: PH.eur(paidTotal, 2) });
     goStep(4);
     $('#bk-steps li:last-child').classList.add('is-done');
   }
-  const STRIPE_LOCALES = ['es', 'en', 'fr', 'de', 'nl', 'it', 'pt', 'ru'];
 
   pay.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -381,20 +389,31 @@
     const code = 'PH-' + Math.random().toString(36).slice(2, 7).toUpperCase();
     const email = pay.email.value.trim();
     payBtn.disabled = true;
+    say('');
 
-    if (st.pm === 'card') {
-      // Se guarda la reserva para enseñarla al volver de Stripe
+    if (st.pm === 'card' && live) {
+      const inD = PH.ymd(st.in), outD = PH.ymd(st.out);
+      // Se guarda la reserva para enseñarla al volver de Stripe (o para reintentar si se cancela)
       try {
-        sessionStorage.setItem('ph_pay', JSON.stringify({ code, email, apt: st.apt.id, in: PH.ymd(st.in), out: PH.ymd(st.out), guests: st.guests }));
+        sessionStorage.setItem('ph_pay', JSON.stringify({
+          code, email, name: pay.name.value.trim(), tel: pay.tel.value.trim(),
+          apt: st.apt.id, in: inD, out: outD, guests: st.guests,
+        }));
       } catch (err) {}
       // Referencia que se ve en el pago dentro de Stripe: código_piso_entrada_salida_personas
-      const ref = [code, 'apt' + st.apt.id, PH.ymd(st.in).replace(/-/g, ''), PH.ymd(st.out).replace(/-/g, ''), 'g' + st.guests].join('_');
-      const u = new URL(PH.STRIPE_TEST.link);
-      u.searchParams.set('prefilled_email', email);
-      u.searchParams.set('client_reference_id', ref);
-      u.searchParams.set('locale', STRIPE_LOCALES.includes(PH.lang) ? PH.lang : 'auto');
+      const ref = [code, 'apt' + st.apt.id, inD.replace(/-/g, ''), outD.replace(/-/g, ''), 'g' + st.guests].join('_');
       payBtn.textContent = t('bk.redirecting');
-      location.href = u.toString();
+      fetch(PH.PAY_API.replace(/\/$/, '') + '/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apt: st.apt.id, in: inD, out: outD, guests: st.guests, email, lang: PH.lang, ref }),
+      })
+        .then((r) => r.json().then((d) => (r.ok && d.url ? d : Promise.reject(d))))
+        .then((d) => { location.href = d.url; })
+        .catch(() => {
+          payBtn.disabled = false; payBtn.textContent = btnLabel();
+          say('pay.error');
+        });
       return;
     }
 
@@ -407,7 +426,7 @@
   $('#bk-reset').addEventListener('click', () => {
     pay.reset(); st.apt = null; st.in = st.out = null; st.pm = 'card';
     $$('.pm-pane').forEach((p) => p.classList.toggle('is-on', p.dataset.pm === 'card'));
-    payBtn.textContent = btnLabel();
+    payBtn.textContent = btnLabel(); say('');
     renderApts(); goStep(1);
   });
 
@@ -435,24 +454,43 @@
   });
 
   // ¿Venimos de una subpágina con un piso elegido? (?apt=19#reserva)
-  // ¿O volvemos de pagar en Stripe? (?pago=ok, configurado en el enlace de pago)
+  // ¿O volvemos de Stripe? (?pago=ok&sesion=cs_… si se pagó, ?pago=cancelado si se canceló)
   const qp = new URLSearchParams(location.search);
   renderApts();
+  const pago = qp.get('pago');
   let back = null;
-  if (qp.get('pago') === 'ok') {
-    try { back = JSON.parse(sessionStorage.getItem('ph_pay')); sessionStorage.removeItem('ph_pay'); } catch (err) {}
+  if (pago) {
+    try { back = JSON.parse(sessionStorage.getItem('ph_pay')); } catch (err) {}
     history.replaceState(null, '', location.pathname + '#reserva');
+    requestAnimationFrame(() => document.getElementById('reserva').scrollIntoView());
   }
-  if (back && PH.aptById(back.apt)) {
+  const restore = () => {
+    if (!back || !PH.aptById(back.apt)) return false;
     st.apt = PH.aptById(back.apt);
     st.in = PH.parse(back.in); st.out = PH.parse(back.out); st.guests = back.guests;
+    st.month = new Date(st.in.getFullYear(), st.in.getMonth(), 1);
     $('#bk-guests').textContent = st.guests;
     renderApts();
-    showDone(back.code, back.email, true);
-    requestAnimationFrame(() => document.getElementById('reserva').scrollIntoView());
-  } else if (qp.get('pago') === 'ok') {
-    showDone('—', '', true);
-    requestAnimationFrame(() => document.getElementById('reserva').scrollIntoView());
+    return true;
+  };
+  if (pago === 'ok' && live) {
+    // Solo se da por pagada si Stripe lo confirma
+    restore(); goStep(st.apt ? 3 : 1);
+    payBtn.disabled = true; payBtn.textContent = t('bk.processing');
+    fetch(PH.PAY_API.replace(/\/$/, '') + '/estado?sesion=' + encodeURIComponent(qp.get('sesion') || ''))
+      .then((r) => r.json().then((d) => (r.ok ? d : Promise.reject(d))))
+      .then((d) => {
+        payBtn.disabled = false; payBtn.textContent = btnLabel();
+        if (!d.paid) { say('pay.notPaid'); return; }
+        try { sessionStorage.removeItem('ph_pay'); } catch (err) {}
+        showDone(back ? back.code : '—', d.email || (back && back.email) || '', true, d.total);
+      })
+      .catch(() => { payBtn.disabled = false; payBtn.textContent = btnLabel(); say('pay.checkError'); });
+  } else if (pago === 'cancelado' && restore()) {
+    // Vuelve al paso de pago con los datos ya puestos
+    goStep(3);
+    pay.email.value = back.email || ''; pay.name.value = back.name || ''; pay.tel.value = back.tel || '';
+    say('pay.cancelled');
   } else if (qp.get('apt') && PH.aptById(qp.get('apt'))) {
     st.apt = PH.aptById(qp.get('apt'));
     st.guests = Math.min(st.guests, st.apt.cap);
