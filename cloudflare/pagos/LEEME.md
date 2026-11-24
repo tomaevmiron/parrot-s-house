@@ -11,7 +11,8 @@
    - **Type:** Secret
    - **Name:** `STRIPE_SECRET_KEY`
    - **Value:** la clave secreta de prueba de Stripe (`sk_test_…`)
-5. Copia la dirección de la función (`https://parrots-house-pagos.<tu-subdominio>.workers.dev`) y ponla en `assets/js/data.js`, en `PH.PAY_API`.
+5. Copia la dirección de la función y ponla en `assets/js/data.js`, en `PH.PAY_API`.
+   Ahora mismo es `https://parrots-house-pagos.parrotshouse.workers.dev` (subdominio de cuenta: `parrotshouse`).
 
 ## Seguridad
 

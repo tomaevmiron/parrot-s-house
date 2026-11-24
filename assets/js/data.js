@@ -111,7 +111,7 @@ PH.TOURIST_TAX = 1.1; // € por adulto y noche (orientativo)
    La función recalcula el precio y abre Stripe Checkout por el importe exacto (modo prueba).
    Vacío = la opción "Tarjeta" funciona como simulación, sin cobrar.
    ⚠️ Si cambian los precios de aquí arriba, hay que cambiarlos también en la función. */
-PH.PAY_API = '';
+PH.PAY_API = 'https://parrots-house-pagos.parrotshouse.workers.dev';
 
 /* Ocupación pseudoaleatoria y estable por piso y fecha */
 PH.isBooked = (apt, d) => {
